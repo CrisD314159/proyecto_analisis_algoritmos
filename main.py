@@ -3,9 +3,9 @@ from scrappers.ACMScrapper import ACMScrapper
 from utils.utils import Utils
 
 
-# scopus = ScopusScraper()
+scopus = ScopusScraper()
 
-# scopus.run()
+scopus.run()
 
 
 acm = ACMScrapper()
