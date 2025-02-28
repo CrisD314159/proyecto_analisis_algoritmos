@@ -8,6 +8,7 @@ selenium = "*"
 pandas = "*"
 matplotlib = "*"
 python-dotenv = "*"
+undetected-chromedriver = "*"
 
 [dev-packages]
 

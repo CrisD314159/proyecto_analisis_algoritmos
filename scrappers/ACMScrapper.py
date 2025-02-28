@@ -83,12 +83,11 @@ class ACMScrapper:
 
             # Handle Cloudflare challenge if present
             try:
-                self.simulate_human_behavior()
                 cloudflare_checkbox = self.browser.find_element(
-                    By.CLASS_NAME, "cb-i")
-                cloudflare_checkbox.click()
+                    By.CLASS_NAME, "cb-c")
+                print(cloudflare_checkbox.tag_name)
                 # Move mouse before clicking to simulate human
-                self.simulate_human_behavior()
+
                 cloudflare_checkbox.find_element(By.TAG_NAME, "input").click()
             except:
                 # If the Cloudflare checkbox isn't found, continue
