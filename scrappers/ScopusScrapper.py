@@ -69,6 +69,9 @@ class ScopusScraper:
         export_ris.find_elements(By.TAG_NAME, "button")[
             2].click()  # [1] for ris, 2 for bibtex
 
+        time.sleep(2)
+        self.browser.quit()
+
     def run(self):
         """
         Runs the scrapper
