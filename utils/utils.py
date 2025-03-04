@@ -97,6 +97,6 @@ class Utils:
 
             return profiles
 
-        except Exception as e:
+        except (OSError, IOError, json.JSONDecodeError) as e:
             print(f"Error listing Chrome profiles: {e}")
             return []

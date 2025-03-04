@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "bfd621db5d22b65aa322503e641545ca02453067f9be91c103ebbd0bfdc639ff"
+            "sha256": "12468e9f4df7a4267ebb1e2b3e416e5c3186cdb836129f824fc6a1c40db65de3"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -23,6 +23,13 @@
             ],
             "markers": "python_version >= '3.8'",
             "version": "==25.1.0"
+        },
+        "bibtexparser": {
+            "hashes": [
+                "sha256:a9c7ded64bc137720e4df0b1b7f12734edc1361185f1c9097048ff7c35af2b8f"
+            ],
+            "index": "pypi",
+            "version": "==1.4.3"
         },
         "certifi": {
             "hashes": [

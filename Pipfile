@@ -9,6 +9,7 @@ pandas = "*"
 matplotlib = "*"
 python-dotenv = "*"
 undetected-chromedriver = "*"
+bibtexparser = "*"
 
 [dev-packages]
 
