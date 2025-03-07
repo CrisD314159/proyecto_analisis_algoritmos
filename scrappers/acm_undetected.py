@@ -12,7 +12,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
-from dotenv import load_dotenv
 
 
 class ACMSUndetectedScrapper:
@@ -21,9 +20,9 @@ class ACMSUndetectedScrapper:
     """
 
     def __init__(self, use_undetected=True, profile_path=None):
-        load_dotenv()
-        self.password = os.getenv("MAIL_PASSWORD")
-
+        """
+        Initialize the scrapper
+        """
         if use_undetected:
             # Use undetected-chromedriver which is built to bypass detections
             if profile_path:
@@ -260,6 +259,23 @@ class ACMSUndetectedScrapper:
 
             # Click on the select all
 
+            try:
+
+                allow_cookies = self.browser.find_element(
+                    By.ID, "CybotCookiebotDialogBodyLevelButtonLevelOptinAllowAll")
+                allow_cookies.click()
+                time.sleep(2)
+            except:
+                pass
+
+            range_slider = self.browser.find_element(
+                By.ID, "range-slider-start")
+            range_slider.clear()
+            range_slider.send_keys("2024")
+            range_slider.send_keys(Keys.RETURN)
+
+            time.sleep(5)
+
             checkbox_input = self.browser.find_element(
                 By.CSS_SELECTOR, "input[name='markall']")
             self.browser.execute_script(
@@ -271,12 +287,50 @@ class ACMSUndetectedScrapper:
             buttons = buttons_div.find_elements(By.TAG_NAME, "a")
             buttons[0].click()
 
-            self.simulate_human_behavior()
-            self.browser.find_element(
-                By.CLASS_NAME, "download__btn").click()
+            all_button = self.browser.find_element(
+                By.ID, "allResults")
+            all_button.click()
 
-            self.simulate_human_behavior()
-            self.browser.quit()
+            time.sleep(5)
+
+            all_results_div = self.browser.find_element(
+                By.CLASS_NAME, "all-results-tab-container")
+            all_results_div.find_element(
+                By.TAG_NAME, "a").click()
+
+            time.sleep(30)
+            # self.simulate_human_behavior()
+            # self.browser.find_element(
+            #     By.CLASS_NAME, "download__btn").click()
+
+          # Replace your current code with this:
+            try:
+                # Wait up to 120 seconds for the download link to be clickable
+                download_link = WebDriverWait(self.browser, 120).until(
+                    EC.element_to_be_clickable(
+                        (By.XPATH, "//div[@id='exportDownloadNotReady']//a"))
+                )
+
+                # Add a short pause before clicking (sometimes helps with stability)
+                self.simulate_human_behavior(1, 2)
+
+                # Click the link
+                download_link.click()
+                print("Download link clicked successfully!")
+
+            except Exception as e:
+                print(f"Error waiting for download link to be enabled: {e}")
+
+                # Fallback approach - try to force click with JavaScript if WebDriverWait fails
+                try:
+                    download_link = self.browser.find_element(
+                        By.XPATH, "//div[@id='exportDownloadNotReady']//a")
+                    self.browser.execute_script(
+                        "arguments[0].click();", download_link)
+                    print("Used JavaScript click as fallback")
+                except Exception as js_error:
+                    print(f"JavaScript fallback also failed: {js_error}")
+
         except Exception as e:
             print(f"Error during search: {e}")
 
@@ -290,4 +344,3 @@ class ACMSUndetectedScrapper:
             print("Scraping completed successfully")
         except Exception as e:
             print(f"Error running the scraper: {e}")
-            self.browser.quit()

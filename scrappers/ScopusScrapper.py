@@ -7,6 +7,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from dotenv import load_dotenv
 
 
@@ -20,8 +21,10 @@ class ScopusScraper:
         self.password = os.getenv("MAIL_PASSWORD")
         self.options = webdriver.ChromeOptions()
         self.options.add_experimental_option("detach", True)
+        self.options.add_argument("--window-size=1920,1080")
         self.browser = webdriver.Chrome(options=self.options)
         self.browser.implicitly_wait(60)
+        self.action_chains = ActionChains(self.browser)
 
     def open_library(self):
         """
@@ -53,12 +56,21 @@ class ScopusScraper:
         Searches for articles in the database related to computational thinking
         """
 
-        time.sleep(5)
+        time.sleep(20)
         search_input = self.browser.find_element(By.ID, "qs")
         search_input.send_keys("computational thinking")
         search_input.send_keys(Keys.RETURN)
 
         time.sleep(5)
+
+        load_more_list = self.browser.find_element(
+            By.CLASS_NAME, "ResultsPerPage")
+        list_items = load_more_list.find_elements(By.TAG_NAME, "li")
+        find_100_a = list_items[2].find_element(By.TAG_NAME, "a")
+        find_100_a.click()
+
+        time.sleep(5)
+
         checkbox = self.browser.find_element(
             By.CLASS_NAME, "result-header-controls-container")
         checkbox.find_element(By.TAG_NAME, "span").click()
@@ -69,8 +81,31 @@ class ScopusScraper:
         export_ris.find_elements(By.TAG_NAME, "button")[
             2].click()  # [1] for ris, 2 for bibtex
 
+        count = 0
+        while count < 3:
+            count += 1
+
+            self.browser.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(4)
+            pagination_list = self.browser.find_element(
+                By.CLASS_NAME, "next-link")
+            list_pagination = pagination_list.find_element(By.TAG_NAME, "a")
+            list_pagination.click()
+            time.sleep(6)
+            self.browser.refresh()
+            checkbox = self.browser.find_element(
+                By.CLASS_NAME, "result-header-controls-container")
+            checkbox.find_element(By.TAG_NAME, "span").click()
+
+            self.browser.find_element(
+                By.CLASS_NAME, "export-all-link-button").click()
+            export_ris = self.browser.find_element(
+                By.CLASS_NAME, "preview-body")
+            export_ris.find_elements(By.TAG_NAME, "button")[
+                2].click()  # [1] for ris, 2 for bibtex
+
         time.sleep(2)
-        self.browser.quit()
 
     def run(self):
         """

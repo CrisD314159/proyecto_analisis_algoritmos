@@ -63,6 +63,8 @@ class SageScraper:
         search_input.send_keys("computational thinking")
         search_input.send_keys(Keys.RETURN)
 
+        time.sleep(5)
+
         cookies_btn2 = self.browser.find_element(
             By.ID, "onetrust-accept-btn-handler")
         cookies_btn2.click()
@@ -82,13 +84,57 @@ class SageScraper:
         select = Select(select_element)
         select.select_by_visible_text("BibTeX")
 
-        time.sleep(3)
+        time.sleep(8)
 
         form_div = self.browser.find_element(By.CLASS_NAME, "form-buttons")
         form_div.find_element(By.TAG_NAME, "a").click()
 
         time.sleep(2)
-        self.browser.quit()
+
+        close_button_div = self.browser.find_element(
+            By.CLASS_NAME, "modal__header")
+        close_button_div.find_element(
+            By.TAG_NAME, "button").click()
+
+        count = 0
+        while count < 3:
+            count += 1
+            self.browser.execute_script(
+                "window.scrollTo(0, document.body.scrollHeight);")
+            time.sleep(4)
+            next_element = self.browser.find_element(
+                By.CLASS_NAME, "hvr-forward")
+            next_element.click()
+
+            time.sleep(6)
+
+            checkbox = self.browser.find_element(
+                By.ID, "action-bar-select-all")
+            checkbox.click()
+
+            time.sleep(3)
+
+            export_btn = self.browser.find_element(
+                By.CLASS_NAME, "export-citation")
+            export_btn.click()
+
+            time.sleep(3)
+
+            select_element = self.browser.find_element(
+                By.NAME, "citation-format")
+            select = Select(select_element)
+            select.select_by_visible_text("BibTeX")
+
+            time.sleep(8)
+
+            form_div = self.browser.find_element(By.CLASS_NAME, "form-buttons")
+            form_div.find_element(By.TAG_NAME, "a").click()
+
+            time.sleep(2)
+            close_button_div = self.browser.find_element(
+                By.CLASS_NAME, "modal__header")
+            close_button_div.find_element(
+                By.TAG_NAME, "button").click()
 
     def run(self):
         """
