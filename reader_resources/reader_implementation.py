@@ -15,7 +15,7 @@ class ReaderImplementation:
 
     def __init__(self):
         self.bib_files = []
-        self.titles = []
+        self.titles = list()
         self.articles = []
         self.repeat_titles = []
 
@@ -49,44 +49,54 @@ class ReaderImplementation:
         """
         Reads each of the bib files indentified in the list_bib_files method
         """
-        first_one = self.bib_files[0]
-        print(first_one)
-        with open(first_one, encoding='utf-8') as bib_file:
-            library = bib.load(bib_file)
-        file_entries = library.entries
+        for file in self.bib_files:
+            print(file)
+            with open(file, encoding='utf-8') as bib_file:
+                library = bib.load(bib_file)
+            file_entries = library.entries
 
-        for entry in file_entries:
-            self.separate_entry_keys(entry)
+            for entry in file_entries:
+                self.separate_entry_keys(entry)
+
+        print(len(self.titles))
+        print(len(self.articles))
+        print(len(self.repeat_titles))
 
     def separate_entry_keys(self, entry):
         """
         Separates the key of a bib entry
         """
-        article = {}
-        # Extract authors if present
-        if 'author' in entry:
-            # Split authors by 'and' and strip whitespace
-            authors = [author.strip()
-                       for author in re.split(' and |,', entry['author'])]
-            print(authors)
-            article['authors'] = authors
+        try:
 
-        if 'title' in entry:
-            title = entry['title']
-            article['title'] = title
+            article = {}
+            # Extract authors if present
+            if 'author' in entry:
+                # Split authors by 'and' and strip whitespace
+                authors = [author.strip()
+                           for author in re.split(' and |,', entry['author'])]
+                article['authors'] = authors
 
-        if 'journal' in entry or 'publisher' in entry:
-            journal = entry['journal'] if 'journal' in entry else entry['publisher']
-            article['journal'] = journal
+            if 'title' in entry:
+                title = entry['title']
+                self.titles.append(title)
+                article['title'] = title
 
-        if 'year' in entry:
-            year = entry['year']
-            article['year'] = year
+            if 'journal' in entry or 'publisher' in entry:
+                journal = entry['journal'] if 'journal' in entry else entry['publisher']
+                article['journal'] = journal
 
-        if self.verify_article_exists(article['title']):
-            self.repeat_titles.append(article)
-        else:
-            self.articles.append(article)
+            if 'year' in entry:
+                year = entry['year']
+                article['year'] = year
+
+            if self.verify_article_exists(article['title']):
+                self.repeat_titles.append(article)
+            else:
+                self.articles.append(article)
+        except Exception as e:
+            print(e)
+            print(e.args)
+            print(entry)
 
     def verify_article_exists(self, title):
         """
