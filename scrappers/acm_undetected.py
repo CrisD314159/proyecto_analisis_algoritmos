@@ -231,7 +231,7 @@ class ACMSUndetectedScrapper:
 
     def acm_search(self):
         """
-        Search for computational thinking papers in the ACM database, 
+        Search for computational thinking papers in the ACM database,
         then it downloads the papers in a bib file
         """
         try:
@@ -298,43 +298,21 @@ class ACMSUndetectedScrapper:
             all_results_div.find_element(
                 By.TAG_NAME, "a").click()
 
-            time.sleep(30)
+            time.sleep(45)
             # self.simulate_human_behavior()
             # self.browser.find_element(
             #     By.CLASS_NAME, "download__btn").click()
+            self.simulate_human_behavior()
 
-          # Replace your current code with this:
-            try:
-                # Wait up to 120 seconds for the download link to be clickable
-                download_link = WebDriverWait(self.browser, 120).until(
-                    EC.element_to_be_clickable(
-                        (By.XPATH, "//div[@id='exportDownloadNotReady']//a"))
-                )
-
-                # Add a short pause before clicking (sometimes helps with stability)
-                self.simulate_human_behavior(1, 2)
-
-                # Click the link
-                download_link.click()
-                print("Download link clicked successfully!")
-
-            except Exception as e:
-                print(f"Error waiting for download link to be enabled: {e}")
-
-                # Fallback approach - try to force click with JavaScript if WebDriverWait fails
-                try:
-                    download_link = self.browser.find_element(
-                        By.XPATH, "//div[@id='exportDownloadNotReady']//a")
-                    self.browser.execute_script(
-                        "arguments[0].click();", download_link)
-                    print("Used JavaScript click as fallback")
-                except Exception as js_error:
-                    print(f"JavaScript fallback also failed: {js_error}")
+            results_div = self.browser.find_element(
+                By.CLASS_NAME, "searchCiteExport-popup__body")
+            results_div.find_element(
+                By.TAG_NAME, "a").click()
 
         except Exception as e:
             print(f"Error during search: {e}")
 
-    def run(self, search_query="computational thinking"):
+    def run(self):
         """
         Method to run the scraper
         """
