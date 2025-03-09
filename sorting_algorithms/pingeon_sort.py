@@ -7,11 +7,8 @@ class PingeonSort:
     """
     Class for pingeon Sort algorithm.
     """
-
-    def __init__(self):
-        pass
-
-    def pigeonhole_sort(self, arr):
+    @staticmethod
+    def pigeonhole_sort(arr):
         """
         Pingeon Sort algorithm implementation.
         """
@@ -33,9 +30,3 @@ class PingeonSort:
             for word in sorted(hole):
                 arr[index] = word
                 index += 1
-
-    def run_pingeon_sort(self, arr):
-        """
-        Run method for pingeon Sort algorithm.
-        """
-        self.pigeonhole_sort(arr)

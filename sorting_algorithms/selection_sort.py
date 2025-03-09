@@ -7,11 +7,11 @@ class SelectionSort:
     """
     Class for Selection Sort algorithm.
     """
-
-    def __init__(self):
-        pass
-
-    def selection_sort(self, arr):
+    @staticmethod
+    def selection_sort(arr):
+        """
+        Method for Selection Sort algorithm.
+        """
         n = len(arr)
         for i in range(n):
             min_idx = i
@@ -19,9 +19,3 @@ class SelectionSort:
                 if arr[j] < arr[min_idx]:
                     min_idx = j
             arr[i], arr[min_idx] = arr[min_idx], arr[i]
-
-    def run_selection_sort(self, arr):
-        """
-        Run method for Selection Sort algorithm.
-        """
-        self.selection_sort(arr)

@@ -10,13 +10,8 @@ class RadixSort:
     A class that implements the radix sort algorithm for sorting strings.
     """
 
-    def __init__(self):
-        """
-        Initialize the RadixSort object.
-        """
-        pass
-
-    def _counting_sort(self, arr, pos):
+    @staticmethod
+    def _counting_sort(arr, pos):
         """
         Counting sort algorithm implementation used as a helper method.
 
@@ -35,7 +30,8 @@ class RadixSort:
                 arr[index] = word
                 index += 1
 
-    def sort(self, arr):
+    @staticmethod
+    def sort(arr):
         """
         Sort the given array using radix sort algorithm.
 
@@ -50,6 +46,6 @@ class RadixSort:
 
         max_length = max(len(word) for word in arr)
         for pos in range(max_length - 1, -1, -1):
-            self._counting_sort(arr, pos)
+            RadixSort._counting_sort(arr, pos)
 
         return arr

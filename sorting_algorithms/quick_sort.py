@@ -8,10 +8,8 @@ class QuickSort:
     Class for quick Sort algorithm.
     """
 
-    def __init__(self):
-        pass
-
-    def quick_sort(self, arr):
+    @staticmethod
+    def quick_sort(arr):
         """
         Quick Sort algorithm implementation.
         """
@@ -21,10 +19,4 @@ class QuickSort:
         left = [x for x in arr if x < pivot]
         middle = [x for x in arr if x == pivot]
         right = [x for x in arr if x > pivot]
-        return self.quick_sort(left) + middle + self.quick_sort(right)
-
-    def run_selection_sort(self, arr):
-        """
-        Run method for Selection Sort algorithm.
-        """
-        self.quick_sort(arr)
+        return QuickSort.quick_sort(left) + middle + QuickSort.quick_sort(right)

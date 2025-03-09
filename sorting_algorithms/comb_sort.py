@@ -8,10 +8,8 @@ class CombSort:
     Class for Comb Sort algorithm.
     """
 
-    def __init__(self):
-        pass
-
-    def comb_sort(self, arr):
+    @staticmethod
+    def comb_sort(arr):
         """
         Comb Sort algorithm implementation.
         """
@@ -31,9 +29,3 @@ class CombSort:
                     arr[i], arr[i + gap] = arr[i + gap], arr[i]
                     sorted_list = False
                 i += 1
-
-    def run_comb_sort(self, arr):
-        """
-        Run method for Comb Sort algorithm.
-        """
-        self.comb_sort(arr)

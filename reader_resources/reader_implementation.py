@@ -4,8 +4,9 @@
 
 import os
 import glob
-import bibtexparser as bib
 import re
+import bibtexparser as bib
+from reader_resources.algorithms_execution import AlgorithmsExecution
 
 
 class ReaderImplementation:
@@ -61,6 +62,7 @@ class ReaderImplementation:
         print(len(self.titles))
         print(len(self.articles))
         print(len(self.repeat_titles))
+        AlgorithmsExecution.execute_algorithms(self.titles)
 
     def separate_entry_keys(self, entry):
         """

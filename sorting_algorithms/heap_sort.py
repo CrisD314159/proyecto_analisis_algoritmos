@@ -7,8 +7,8 @@ class HeapSort:
     """
     Class for heap Sort algorithm.
     """
-
-    def heapify(self, arr, n, i):
+    @staticmethod
+    def heapify(arr, n, i):
         """
         Heapify method for heap Sort algorithm.
         """
@@ -24,23 +24,18 @@ class HeapSort:
 
         if largest != i:
             arr[i], arr[largest] = arr[largest], arr[i]
-            self.heapify(arr, n, largest)
+            HeapSort.heapify(arr, n, largest)
 
-    def heap_sort(self, arr):
+    @staticmethod
+    def heap_sort(arr):
         """
         Heap Sort algorithm implementation.
         """
         n = len(arr)
 
         for i in range(n // 2 - 1, -1, -1):
-            self.heapify(arr, n, i)
+            HeapSort.heapify(arr, n, i)
 
         for i in range(n - 1, 0, -1):
             arr[i], arr[0] = arr[0], arr[i]
-            self.heapify(arr, i, 0)
-
-    def run_hep_sort(self, arr):
-        """
-        Run method for heap Sort algorithm.
-        """
-        self.heap_sort(arr)
+            HeapSort.heapify(arr, i, 0)

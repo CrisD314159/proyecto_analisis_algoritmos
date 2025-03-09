@@ -6,10 +6,10 @@ name = "pypi"
 [packages]
 selenium = "*"
 pandas = "*"
-matplotlib = "*"
 python-dotenv = "*"
 undetected-chromedriver = "*"
 bibtexparser = "*"
+matplotlib = "*"
 
 [dev-packages]
 

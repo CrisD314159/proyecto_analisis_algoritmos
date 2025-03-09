@@ -9,10 +9,8 @@ class BucketSort:
     Class for Selection Sort algorithm.
     """
 
-    def __init__(self):
-        pass
-
-    def bucket_sort(self, arr):
+    @staticmethod
+    def bucket_sort(arr):
         """
           Bucket sort algorithm implementation.
         """
@@ -30,9 +28,3 @@ class BucketSort:
             sorted_arr.extend(sorted(buckets[key]))
 
         arr[:] = sorted_arr  # Copy back sorted elements
-
-    def run_selection_sort(self, arr):
-        """
-        Run method for Selection Sort algorithm.
-        """
-        self.bucket_sort(arr)
