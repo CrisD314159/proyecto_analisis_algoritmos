@@ -14,7 +14,7 @@ from sorting_algorithms.quick_sort import QuickSort
 from sorting_algorithms.radix_sort import RadixSort
 from sorting_algorithms.selection_sort import SelectionSort
 from sorting_algorithms.tim_sort_algorithm import TimSort
-from sorting_algorithms.tree_sort import TreeSort
+from sorting_algorithms.tree_sort import tree_sort
 from reader_resources.execution_time_plotter import ExecutionTimePlotter
 
 
@@ -129,7 +129,7 @@ class AlgorithmsExecution:
         Run method for Bitonic Sort algorithm.
         """
         arr_copy = arr
-        TreeSort.sort(arr_copy)
+        tree_sort(arr_copy)
         return "Tree Sort"
 
     @staticmethod
@@ -165,4 +165,5 @@ class AlgorithmsExecution:
 
         plotter = ExecutionTimePlotter(
             algorithms=algorithms_names, times=times)
-        plotter.plot_execution_times()
+        plotter.plot_execution_times(
+            'Execution time of the sorting algorithms for the article titles array')

@@ -14,13 +14,12 @@ class ExecutionTimePlotter:
         self.algorithms = algorithms
         self.execution_times = times
 
-    def plot_execution_times(self):
+    def plot_execution_times(self, title):
         """
         Plot the execution times of the algorithms.
         """
         plt. bar(self.algorithms, self.execution_times)
         plt.xlabel('Algoritmos')
         plt.ylabel('Tiempo de ejecución (ms)')
-        plt.title(
-            'Comparación de Tiempos de Ejecución de Algoritmos de Ordenamiento')
+        plt.title(title)
         plt.show()

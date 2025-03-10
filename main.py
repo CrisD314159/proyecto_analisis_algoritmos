@@ -8,19 +8,19 @@ from scrappers.sage_scrapper import SageScraper
 from reader_resources.reader_implementation import ReaderImplementation
 
 
-utils = Utils()
+# utils = Utils()
 
-scopus = ScopusScraper()
-scopus.run()
+# scopus = ScopusScraper()
+# scopus.run()
 
-sage = SageScraper()
-sage.run()
+# sage = SageScraper()
+# sage.run()
 
-acm = ACMSUndetectedScrapper(
-    use_undetected=True)
-acm.run()
+# acm = ACMSUndetectedScrapper(
+#     use_undetected=True)
+# acm.run()
 
-utils.move_downloaded_files()
+# utils.move_downloaded_files()
 
 
 reader = ReaderImplementation()

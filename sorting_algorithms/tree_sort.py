@@ -3,61 +3,40 @@ Tree sort module
 """
 
 
-class TreeSort:
-    """
-    A class that implements the Tree Sort algorithm.
-    """
+class TreeNode:
+    def __init__(self, key):
+        self.left = None
+        self.right = None
+        self.val = key
 
-    class Node:
-        """
-        Node class for the binary search tree.
-        """
 
-        def __init__(self, key):
-            self.key = key
-            self.left = None
-            self.right = None
+def insert(root, key):
+    if root is None:
+        return TreeNode(key)
 
-    @staticmethod
-    def insert(root, key):
-        """
-        Insert a key into the binary search tree.
-        """
-        if root is None:
-            return TreeSort.Node(key)
-        if key < root.key:
-            root.left = TreeSort.insert(root.left, key)
-        else:
-            root.right = TreeSort.insert(root.right, key)
-        return root
+    if key < root.val:
+        root.left = insert(root.left, key)
+    else:
+        root.right = insert(root.right, key)
 
-    @staticmethod
-    def inorder_traversal(root, result):
-        """
-        Perform inorder traversal of the binary search tree.
-        """
-        if root:
-            TreeSort.inorder_traversal(root.left, result)
-            result.append(root.key)
-            TreeSort.inorder_traversal(root.right, result)
+    return root
 
-    @staticmethod
-    def sort(arr):
-        """
-        Tree sort algorithm implementation.
-        """
-        if not arr:
-            return []
 
-        # Build the binary search tree
-        root = None
-        for key in arr:
-            root = TreeSort.insert(root, key)
+def inorder_traversal(root, res):
+    if root:
+        inorder_traversal(root.left, res)
+        res.append(root.val)
+        inorder_traversal(root.right, res)
 
-        # Traverse the tree to get sorted elements
-        sorted_arr = []
-        TreeSort.inorder_traversal(root, sorted_arr)
 
-        # Copy sorted elements back to original array
-        arr[:] = sorted_arr
-        return sorted_arr
+def tree_sort(arr):
+    if not arr:
+        return arr
+
+    root = None
+    for key in arr:
+        root = insert(root, key)
+
+    sorted_arr = []
+    inorder_traversal(root, sorted_arr)
+    return sorted_arr
