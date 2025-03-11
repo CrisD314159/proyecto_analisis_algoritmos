@@ -18,7 +18,7 @@ class ExecutionTimePlotter:
         """
         Plot the execution times of the algorithms.
         """
-        plt. bar(self.algorithms, self.execution_times)
+        plt.bar(self.algorithms, self.execution_times)
         plt.xlabel('Algoritmos')
         plt.ylabel('Tiempo de ejecución (ms)')
         plt.title(title)

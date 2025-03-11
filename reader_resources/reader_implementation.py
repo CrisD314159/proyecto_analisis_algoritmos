@@ -16,7 +16,10 @@ class ReaderImplementation:
 
     def __init__(self):
         self.bib_files = []
-        self.titles = list()
+        self.titles = []
+        self.authors = []
+        self.journals = []
+        self.keywords = []
         self.articles = []
         self.repeat_titles = []
 
@@ -50,6 +53,8 @@ class ReaderImplementation:
         """
         Reads each of the bib files indentified in the list_bib_files method
         """
+        self.list_bib_files()
+
         for file in self.bib_files:
             print(file)
             with open(file, encoding='utf-8') as bib_file:
@@ -59,10 +64,13 @@ class ReaderImplementation:
             for entry in file_entries:
                 self.separate_entry_keys(entry)
 
-        print(len(self.titles))
-        print(len(self.articles))
-        print(len(self.repeat_titles))
-        AlgorithmsExecution.execute_algorithms(self.titles)
+        print(len(self.titles), " Titles Filtered")
+        print(len(self.articles), " Articles Filtered")
+        print(len(self.journals), " Journals Filtered")
+        print(len(self.keywords), " Keywords Filtered")
+        print(len(self.authors), " Authors Filtered")
+        print(len(self.repeat_titles), " Repeated Articles")
+        self.plot_results()
 
     def separate_entry_keys(self, entry):
         """
@@ -77,15 +85,23 @@ class ReaderImplementation:
                 authors = [author.strip()
                            for author in re.split(' and |,', entry['author'])]
                 article['authors'] = authors
+                self.inject_authors(authors)
 
             if 'title' in entry:
                 title = entry['title']
-                self.titles.append(title)
                 article['title'] = title
+                self.inject_titles(title)
 
             if 'journal' in entry or 'publisher' in entry:
                 journal = entry['journal'] if 'journal' in entry else entry['publisher']
                 article['journal'] = journal
+                self.inject_journals(journal)
+
+            if 'keywords' in entry:
+                keywords = [keyword.strip()
+                            for keyword in re.split(',', entry['keywords'])]
+                article['keywords'] = keywords
+                self.inject_keywords(keywords)
 
             if 'year' in entry:
                 year = entry['year']
@@ -108,9 +124,49 @@ class ReaderImplementation:
             if article['title'] == title:
                 return True
 
-    def run(self):
+    def inject_keywords(self, keywords):
         """
-        Initializes the reading process
+        Injects keywords into the articles
         """
-        self.list_bib_files()
-        self.read_bib_files()
+        for keyword in keywords:
+            if keyword not in self.keywords:
+                self.keywords.append(keyword)
+
+    def inject_titles(self, title):
+        """
+        Injects titles into the articles
+        """
+        if title not in self.titles:
+            self.titles.append(title)
+
+    def inject_authors(self, authors):
+        """
+        Injects authors into the articles
+        """
+        for author in authors:
+            if author not in self.authors:
+                self.authors.append(author)
+
+    def inject_journals(self, journal):
+        """
+        Injects journals into the articles
+        """
+        if journal not in self.journals:
+            self.journals.append(journal)
+
+    def plot_results(self):
+        """
+        Plots the results of the algorithms
+        """
+        AlgorithmsExecution.execute_algorithms(
+            self.titles,
+            'Tiempos de ejecución de algoritmos de ordenamiento para la variable TITLE')
+        AlgorithmsExecution.execute_algorithms(
+            self.authors,
+            'Tiempos de ejecución de algoritmos de ordenamiento para la variable AUTHOR')
+        AlgorithmsExecution.execute_algorithms(
+            self.journals,
+            'Tiempos de ejecución de algoritmos de ordenamiento para la variable JOURNAL')
+        AlgorithmsExecution.execute_algorithms(
+            self.keywords,
+            'Tiempos de ejecución de algoritmos de ordenamiento para la variable KEYWORDS')

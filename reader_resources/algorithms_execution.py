@@ -28,112 +28,171 @@ class AlgorithmsExecution:
         """
         Run method for Binary Search algorithm.
         """
-        arr_copy = arr
-        BinaryInsertionSort.sort_in_place(arr_copy)
-        return "Binary Insertion Sort"
+        try:
+
+            arr_copy = arr
+            BinaryInsertionSort.sort_in_place(arr_copy)
+            return "Binary"
+        except RecursionError:
+            print("Error executing the Binary insertion algorithm")
+            return -1
 
     @staticmethod
     def run_bitonic(arr):
         """
         Run method for Bitonic Sort algorithm.
         """
-        arr_copy = arr
-        BitonicSort.sort(arr_copy)
-        return "Bitonic Sort"
+        try:
+            arr_copy = arr
+            BitonicSort.sort(arr_copy)
+            return "Bitonic"
+        except RecursionError:
+            print("Error on recusion Bitonic sort method")
+            return -1
+        except IndexError:
+            print("Error executing the Bitonic Sort algorithm (Index out of range)")
+            return -1
 
     @staticmethod
     def run_bucket(arr):
         """
-        Run method for Bitonic Sort algorithm.
+        Run method for Bucket Sort algorithm.
         """
-        arr_copy = arr
-        BucketSort.bucket_sort(arr_copy)
-        return "Bucket Sort"
+        try:
+            arr_copy = arr
+            BucketSort.bucket_sort(arr_copy)
+            return "Bucket"
+        except IndexError:
+            print("Error executing the Bucket tree algorithm (Index out of range)")
+            return -1
 
     @staticmethod
     def run_comb(arr):
         """
-        Run method for Bitonic Sort algorithm.
+        Run method for Comb Sort algorithm.
         """
-        arr_copy = arr
-        CombSort.comb_sort(arr_copy)
-        return "Comb Sort"
+        try:
+            arr_copy = arr
+            CombSort.comb_sort(arr_copy)
+            return "Comb"
+        except IndexError:
+            print("Error executing the Comb Sort algorithm (Index out of range)")
+            return -1
 
     @staticmethod
     def run_gnome(arr):
         """
-        Run method for Bitonic Sort algorithm.
+        Run method for Gnome Sort algorithm.
         """
-        arr_copy = arr
-        GnomeSort.gnome_sort(arr_copy)
-        return "Gnome Sort"
+        try:
+            arr_copy = arr
+            GnomeSort.gnome_sort(arr_copy)
+            return "Gnome"
+        except IndexError:
+            print("Error executing the Gnome Sort algorithm (Index out of range)")
+            return -1
 
     @staticmethod
     def run_heap(arr):
         """
-        Run method for Bitonic Sort algorithm.
+        Run method for Heap Sort algorithm.
         """
-        arr_copy = arr
-        HeapSort.heap_sort(arr_copy)
-        return "Heap Sort"
+        try:
+            arr_copy = arr
+            HeapSort.heap_sort(arr_copy)
+            return "Heap"
+        except IndexError:
+            print("Error executing the Heap Sort algorithm (Index out of range)")
+            return -1
 
     @staticmethod
     def run_pingeon(arr):
         """
-        Run method for Bitonic Sort algorithm.
+        Run method for Pingeon Sort algorithm.
         """
-        arr_copy = arr
-        PingeonSort.pigeonhole_sort(arr_copy)
-        return "Pingeon Sort"
+        try:
+            arr_copy = arr
+            PingeonSort.pigeonhole_sort(arr_copy)
+            return "Pingeon"
+        except IndexError:
+            print("Error executing the Pingeon algorithm (Index out of range)")
+            return -1
 
     @staticmethod
     def run_quick(arr):
         """
         Run method for Bitonic Sort algorithm.
         """
-        arr_copy = arr
-        QuickSort.quick_sort(arr_copy)
-        return "Quick Sort"
+        try:
+            arr_copy = arr
+            QuickSort.quick_sort(arr_copy)
+            return "Quick"
+        except RecursionError:
+            print("Error executing the Quick Sort algorithm")
+            return -1
+        except IndexError:
+            print("Error executing the Quick Sort algorithm (Index out of range)")
+            return -1
 
     @staticmethod
     def run_radix(arr):
         """
-        Run method for Bitonic Sort algorithm.
+        Run method for Radix Sort algorithm.
         """
-        arr_copy = arr
-        RadixSort.sort(arr_copy)
-        return "Radix Sort"
+        try:
+            arr_copy = arr
+            RadixSort.sort(arr_copy)
+            return "Radix"
+        except IndexError:
+            print("Error executing the Radix algorithm (Index out of range)")
+            return -1
 
     @staticmethod
     def run_selection(arr):
         """
-        Run method for Bitonic Sort algorithm.
+        Run method for Selection Sort algorithm.
         """
-        arr_copy = arr
-        SelectionSort.selection_sort(arr_copy)
-        return "Selection Sort"
+        try:
+            arr_copy = arr
+            SelectionSort.selection_sort(arr_copy)
+            return "Selection"
+        except IndexError:
+            print("Error executing the Selection Sort algorithm (Index out of range)")
+            return -1
 
     @staticmethod
     def run_tim(arr):
         """
-        Run method for Bitonic Sort algorithm.
+        Run method for Tim Sort algorithm.
         """
-        arr_copy = arr
-        tim = TimSort()
-        tim.run_tim_sort(arr_copy)
-        return "Tim Sort"
+        try:
+            arr_copy = arr
+            tim = TimSort()
+            tim.run_tim_sort(arr_copy)
+            return "Tim"
+        except IndexError:
+            print("Error executing the Tim algorithm (Index out of range)")
+            return -1
 
     @staticmethod
     def run_tree(arr):
         """
-        Run method for Bitonic Sort algorithm.
+        Run method for Tree Sort algorithm.
         """
-        arr_copy = arr
-        tree_sort(arr_copy)
-        return "Tree Sort"
+        try:
+
+            arr_copy = arr
+            tree_sort(arr_copy)
+            return "Tree"
+        except RecursionError:
+            print("Error executing the Tree sort algorithm")
+            return -1
+        except IndexError:
+            print("Error executing the Tree Sort algorithm (Index out of range)")
+            return -1
 
     @staticmethod
-    def execute_algorithms(arr):
+    def execute_algorithms(arr, plotter_name):
         """
         Execute all sorting algorithms.
         """
@@ -148,10 +207,10 @@ class AlgorithmsExecution:
             AlgorithmsExecution.run_quick,
             AlgorithmsExecution.run_radix,
             AlgorithmsExecution.run_selection,
-            AlgorithmsExecution.run_tim
+            AlgorithmsExecution.run_tim,
+            AlgorithmsExecution.run_tree
         ]
 
-        # TODO: Fix the tree sort algorithm
         times = []
         algorithms_names = []
 
@@ -160,10 +219,10 @@ class AlgorithmsExecution:
             name = algorithm(arr)
             end = time.time()
             exec_time = (end - start) * 1000
-            algorithms_names.append(name)
-            times.append(exec_time)
+            if name != -1:
+                algorithms_names.append(name)
+                times.append(exec_time)
 
         plotter = ExecutionTimePlotter(
             algorithms=algorithms_names, times=times)
-        plotter.plot_execution_times(
-            'Execution time of the sorting algorithms for the article titles array')
+        plotter.plot_execution_times(plotter_name)

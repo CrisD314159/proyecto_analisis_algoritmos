@@ -24,4 +24,4 @@ from reader_resources.reader_implementation import ReaderImplementation
 
 
 reader = ReaderImplementation()
-reader.run()
+reader.read_bib_files()
