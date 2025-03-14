@@ -8,7 +8,7 @@ from scrappers.sage_scrapper import SageScraper
 from reader_resources.reader_implementation import ReaderImplementation
 
 
-# utils = Utils()
+utils = Utils()
 
 # scopus = ScopusScraper()
 # scopus.run()
@@ -20,7 +20,7 @@ from reader_resources.reader_implementation import ReaderImplementation
 #     use_undetected=True)
 # acm.run()
 
-# utils.move_downloaded_files()
+utils.move_downloaded_files()
 
 
 reader = ReaderImplementation()

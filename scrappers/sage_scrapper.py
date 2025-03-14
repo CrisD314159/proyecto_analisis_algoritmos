@@ -96,9 +96,8 @@ class SageScraper:
         close_button_div.find_element(
             By.TAG_NAME, "button").click()
 
-        count = 0
-        while count < 3:
-            count += 1
+        for i in range(0, 10):
+            print(i)
             self.browser.execute_script(
                 "window.scrollTo(0, document.body.scrollHeight);")
             time.sleep(4)
@@ -135,6 +134,8 @@ class SageScraper:
                 By.CLASS_NAME, "modal__header")
             close_button_div.find_element(
                 By.TAG_NAME, "button").click()
+        time.sleep(5)
+        self.browser.quit()
 
     def run(self):
         """

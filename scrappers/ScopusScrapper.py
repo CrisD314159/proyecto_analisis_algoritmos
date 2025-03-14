@@ -4,6 +4,7 @@
 import os
 import time
 from selenium import webdriver
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.keys import Keys
@@ -16,14 +17,81 @@ class ScopusScraper:
         This class contains all the scopus scrapper methods
     """
 
-    def __init__(self):
+    def __init__(self, use_undetected=True, profile_path=None):
+        """
+        Initialize the scrapper
+        """
         load_dotenv()
         self.password = os.getenv("MAIL_PASSWORD")
-        self.options = webdriver.ChromeOptions()
-        self.options.add_experimental_option("detach", True)
-        self.options.add_argument("--window-size=1920,1080")
-        self.browser = webdriver.Chrome(options=self.options)
-        self.browser.implicitly_wait(60)
+        if use_undetected:
+            # Use undetected-chromedriver which is built to bypass detections
+            if profile_path:
+                self.options = uc.ChromeOptions()
+                self.options.add_argument(f"--user-data-dir={profile_path}")
+                self.browser = uc.Chrome(options=self.options)
+            else:
+                self.browser = uc.Chrome()
+        else:
+            # Original approach with added protections
+            self.options = webdriver.ChromeOptions()
+
+            # Add user data directory if provided
+            if profile_path:
+                self.options.add_argument(f"--user-data-dir={profile_path}")
+
+            # Standard anti-detection measures
+            self.options.add_argument("--start-maximized")
+            self.options.add_experimental_option("detach", True)
+
+            # Add realistic user agent
+            self.options.add_argument(
+                "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
+
+            # Add language preferences
+            self.options.add_argument("--lang=en-US,en;q=0.9")
+
+            # Set window size to realistic dimensions
+            self.options.add_argument("--window-size=1920,1080")
+
+            # Avoid detection
+            self.options.add_argument(
+                "--disable-blink-features=AutomationControlled")
+            self.options.add_argument("--disable-gpu")
+            self.options.add_experimental_option(
+                "excludeSwitches", ["enable-automation"])
+            self.options.add_experimental_option(
+                "useAutomationExtension", False)
+
+            # Add additional arguments that may help
+            self.options.add_argument("--no-sandbox")
+            self.options.add_argument("--disable-dev-shm-usage")
+
+            # Add preferences to mimic human browser settings
+            prefs = {
+                "profile.default_content_setting_values.notifications": 2,
+                "credentials_enable_service": False,
+                "profile.password_manager_enabled": False,
+                "profile.default_content_settings.popups": 0
+            }
+            self.options.add_experimental_option("prefs", prefs)
+
+            self.browser = webdriver.Chrome(options=self.options)
+
+            # Execute scripts to avoid detection
+            self.browser.execute_script(
+                "Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+            self.browser.execute_script(
+                "Object.defineProperty(navigator, 'maxTouchPoints', {get: () => 5});")
+            self.browser.execute_script(
+                "Object.defineProperty(navigator, 'hardwareConcurrency', {get: () => 8});")
+
+            # Additional anti-detection scripts
+            self.browser.execute_script(
+                "Object.defineProperty(navigator, 'plugins', {get: function() { return [1, 2, 3, 4, 5]; }});")
+            self.browser.execute_script(
+                "Object.defineProperty(navigator, 'languages', {get: function() { return ['en-US', 'en']; }});")
+
+        self.browser.implicitly_wait(10)
         self.action_chains = ActionChains(self.browser)
 
     def open_library(self):
@@ -55,6 +123,8 @@ class ScopusScraper:
         """
         Searches for articles in the database related to computational thinking
         """
+        # Set up explicit wait
+        wait = WebDriverWait(self.browser, 30)
 
         time.sleep(20)
         search_input = self.browser.find_element(By.ID, "qs")
@@ -63,6 +133,7 @@ class ScopusScraper:
 
         time.sleep(5)
 
+        # Set to show 100 results per page
         load_more_list = self.browser.find_element(
             By.CLASS_NAME, "ResultsPerPage")
         list_items = load_more_list.find_elements(By.TAG_NAME, "li")
@@ -71,39 +142,120 @@ class ScopusScraper:
 
         time.sleep(5)
 
-        checkbox = self.browser.find_element(
-            By.CLASS_NAME, "result-header-controls-container")
-        checkbox.find_element(By.TAG_NAME, "span").click()
+        # Process first page
+        try:
+            self.process_page()
+        except Exception as e:
+            print(f"Error processing first page: {e}")
 
-        self.browser.find_element(
-            By.CLASS_NAME, "export-all-link-button").click()
-        export_ris = self.browser.find_element(By.CLASS_NAME, "preview-body")
-        export_ris.find_elements(By.TAG_NAME, "button")[
-            2].click()  # [1] for ris, 2 for bibtex
+        # Process subsequent pages
+        for i in range(0, 10):
+            try:
+                print(f"Processing page {i+1}")
 
-        count = 0
-        while count < 3:
-            count += 1
+                # Scroll to bottom of page to find pagination
+                self.browser.execute_script(
+                    "window.scrollTo(0, document.body.scrollHeight);")
+                time.sleep(4)
 
-            self.browser.execute_script(
-                "window.scrollTo(0, document.body.scrollHeight);")
-            time.sleep(4)
-            pagination_list = self.browser.find_element(
-                By.CLASS_NAME, "next-link")
-            list_pagination = pagination_list.find_element(By.TAG_NAME, "a")
-            list_pagination.click()
-            time.sleep(6)
-            self.browser.refresh()
-            checkbox = self.browser.find_element(
-                By.CLASS_NAME, "result-header-controls-container")
-            checkbox.find_element(By.TAG_NAME, "span").click()
+                # Find and click next page button
+                pagination_list = wait.until(
+                    lambda browser: browser.find_element(
+                        By.CLASS_NAME, "next-link")
+                )
+                list_pagination = pagination_list.find_element(
+                    By.TAG_NAME, "a")
+                list_pagination.click()
 
-            self.browser.find_element(
-                By.CLASS_NAME, "export-all-link-button").click()
-            export_ris = self.browser.find_element(
+                # Wait for page to load
+                time.sleep(8)
+
+                # Process the new page
+                self.process_page()
+
+            except Exception as e:
+                print(f"Error on page {i+1}: {e}")
+                # Take screenshot for debugging
+                continue
+
+        time.sleep(2)
+        self.browser.quit()
+
+    def process_page(self):
+        """
+        Process a single page of results - select all, export, and uncheck
+        """
+        wait = WebDriverWait(self.browser, 30)
+
+        # Find and click the checkbox to select all
+        try:
+            checkbox_container = wait.until(
+                lambda browser: browser.find_element(
+                    By.CLASS_NAME, "result-header-controls-container")
+            )
+            checkbox = checkbox_container.find_element(By.TAG_NAME, "span")
+            wait.until(lambda browser: checkbox.is_displayed())
+            checkbox.click()
+            print("Selected all items")
+        except Exception as e:
+            print(f"Error selecting all items: {e}")
+            raise
+
+        time.sleep(2)
+
+        # Click export button
+        try:
+            export_button = wait.until(
+                lambda browser: browser.find_element(
+                    By.CLASS_NAME, "export-all-link-button")
+            )
+            export_button.click()
+            print("Clicked export button")
+        except Exception as e:
+            print(f"Error clicking export button: {e}")
+            raise
+
+        time.sleep(5)
+
+        # Click bibtex export option
+        try:
+
+            time.sleep(10)
+            export_dialog = wait.until(
+                lambda browser: browser.find_element(
+                    By.CLASS_NAME, "ExportCitationOptions")
+            )
+            export_options_container = export_dialog.find_element(
                 By.CLASS_NAME, "preview-body")
-            export_ris.find_elements(By.TAG_NAME, "button")[
-                2].click()  # [1] for ris, 2 for bibtex
+
+            export_buttons = export_options_container.find_elements(
+                By.TAG_NAME, "button")
+
+            if len(export_buttons) >= 3:
+                export_buttons[2].click()  # [1] for ris, 2 for bibtex
+                print("Clicked bibtex export button")
+            else:
+                print(
+                    f"Not enough export buttons found. Found {len(export_buttons)}")
+                raise Exception("Export buttons not found")
+        except Exception as e:
+            print(f"Error during export: {e}")
+            raise
+
+        time.sleep(3)
+
+        # Uncheck the "select all" checkbox
+        try:
+            checkbox_container = wait.until(
+                lambda browser: browser.find_element(
+                    By.CLASS_NAME, "result-header-controls-container")
+            )
+            checkbox = checkbox_container.find_element(By.TAG_NAME, "span")
+            checkbox.click()
+            print("Unchecked all items")
+        except Exception as e:
+            print(f"Error unchecking items: {e}")
+            # Don't raise here, as we want to continue to the next page
 
         time.sleep(2)
 

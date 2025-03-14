@@ -56,10 +56,11 @@ class ReaderImplementation:
         self.list_bib_files()
 
         for file in self.bib_files:
-            print(file)
+
             with open(file, encoding='utf-8') as bib_file:
                 library = bib.load(bib_file)
             file_entries = library.entries
+            print(len(file_entries), " Entries Found in ", file)
 
             for entry in file_entries:
                 self.separate_entry_keys(entry)

@@ -10,7 +10,7 @@ from sorting_algorithms.comb_sort import CombSort
 from sorting_algorithms.gnome_sort import GnomeSort
 from sorting_algorithms.heap_sort import HeapSort
 from sorting_algorithms.pingeon_sort import PingeonSort
-from sorting_algorithms.quick_sort import QuickSort
+from sorting_algorithms.quick_sort import StringQuickSort
 from sorting_algorithms.radix_sort import RadixSort
 from sorting_algorithms.selection_sort import SelectionSort
 from sorting_algorithms.tim_sort_algorithm import TimSort
@@ -86,7 +86,8 @@ class AlgorithmsExecution:
         """
         try:
             arr_copy = arr
-            GnomeSort.gnome_sort(arr_copy)
+            gnome = GnomeSort()
+            gnome.sort(arr_copy)
             return "Gnome"
         except IndexError:
             print("Error executing the Gnome Sort algorithm (Index out of range)")
@@ -125,7 +126,8 @@ class AlgorithmsExecution:
         """
         try:
             arr_copy = arr
-            QuickSort.quick_sort(arr_copy)
+            quicksort = StringQuickSort()
+            quicksort.sort(arr_copy)
             return "Quick"
         except RecursionError:
             print("Error executing the Quick Sort algorithm")

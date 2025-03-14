@@ -4,7 +4,6 @@ This is the acm scrapper version that uses undetected-chromedriver
 """
 import time
 import random
-import os
 import undetected_chromedriver as uc
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -218,17 +217,6 @@ class ACMSUndetectedScrapper:
             print(f"Error handling Cloudflare: {e}")
             return False
 
-    def human_like_typing(self, element, text, min_delay=0.05, max_delay=0.25):
-        """
-        Type text into an element with human-like delays between keystrokes
-        """
-        for char in text:
-            element.send_keys(char)
-            time.sleep(random.uniform(min_delay, max_delay))
-
-        # Sometimes people pause after typing before pressing enter
-        time.sleep(random.uniform(0.5, 1.5))
-
     def acm_search(self):
         """
         Search for computational thinking papers in the ACM database,
@@ -252,10 +240,11 @@ class ACMSUndetectedScrapper:
             search_input = WebDriverWait(self.browser, 5).until(
                 lambda browser: browser.find_element(By.NAME, "AllField")
             )
-            print(search_input.id)
             search_input.send_keys("computational thinking")
             self.simulate_human_behavior()
             search_input.send_keys(Keys.RETURN)
+
+            time.sleep(4)
 
             # Click on the select all
 
@@ -298,16 +287,78 @@ class ACMSUndetectedScrapper:
             all_results_div.find_element(
                 By.TAG_NAME, "a").click()
 
-            time.sleep(45)
-            # self.simulate_human_behavior()
-            # self.browser.find_element(
-            #     By.CLASS_NAME, "download__btn").click()
-            self.simulate_human_behavior()
+            # Increased wait time with progress logging
+            print("Waiting for download preparation...")
+            for i in range(12):  # 12 * 10 = 120 seconds total wait
+                time.sleep(10)
+                print(f"Still waiting... {(i+1)*10} seconds elapsed")
 
-            results_div = self.browser.find_element(
-                By.CLASS_NAME, "searchCiteExport-popup__body")
-            results_div.find_element(
-                By.TAG_NAME, "a").click()
+            print("Attempting to find download button...")
+
+            # Use a more robust approach to find the button
+            results_div = WebDriverWait(self.browser, 20).until(
+                EC.presence_of_element_located(
+                    (By.CLASS_NAME, "searchCiteExport-popup__body"))
+            )
+
+            # Debug what's visible in the results div
+            print(f"Found results div with content: {results_div.text}")
+
+            # Explicit wait checking for disabled attribute
+            print("Waiting for download button to be enabled...")
+            max_wait = 120  # 2 minutes
+            start_time = time.time()
+
+            while time.time() - start_time < max_wait:
+                try:
+                    download_container = self.browser.find_element(
+                        By.ID, "exportDownloadReady")
+                    download_link = download_container.find_element(
+                        By.TAG_NAME, "a")
+                    if download_link.is_enabled() and download_link.is_displayed():
+                        disabled = download_link.get_attribute("disabled")
+                        aria_disabled = download_link.get_attribute(
+                            "aria-disabled")
+
+                        print(
+                            f"Button state - disabled: {disabled}, aria-disabled: {aria_disabled}")
+
+                        if not disabled and aria_disabled != "true":
+                            print("Download button appears to be enabled!")
+                            # Add a small delay and then click using JavaScript
+                            self.simulate_human_behavior(3, 5)
+                            self.browser.execute_script(
+                                "arguments[0].click();", download_link)
+                            print("Clicked download button via JavaScript")
+
+                            # Wait for download to start
+                            print("Waiting for download to complete...")
+                            self.simulate_human_behavior(20, 30)
+                            print("Download waiting period completed")
+                            return
+                except Exception as e:
+                    print(f"Error checking button: {e}")
+
+                print("Button not ready yet, waiting...")
+                time.sleep(5)
+
+            print("Timed out waiting for download button to be enabled")
+
+            # Take screenshot for debugging if possible
+            try:
+                self.browser.save_screenshot("acm_download_timeout.png")
+                print("Saved screenshot as acm_download_timeout.png")
+            except Exception as e:
+                print(f"Failed to save screenshot: {e}")
+
+        except Exception as e:
+            print(f"Error during search: {str(e)}")
+            # Take screenshot on error
+            try:
+                self.browser.save_screenshot("acm_error.png")
+                print("Saved error screenshot as acm_error.png")
+            except:
+                pass
 
         except Exception as e:
             print(f"Error during search: {e}")
