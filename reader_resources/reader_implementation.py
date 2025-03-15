@@ -128,14 +128,14 @@ class ReaderImplementation:
         """
         for keyword in keywords:
             if keyword not in self.keywords:
-                self.keywords.append(keyword)
+                self.keywords.append(keyword.strip())
 
     def inject_titles(self, title):
         """
         Injects titles into the articles
         """
         if title not in self.titles:
-            self.titles.append(title)
+            self.titles.append(title.strip())
 
     def inject_authors(self, authors):
         """
@@ -143,7 +143,7 @@ class ReaderImplementation:
         """
         for author in authors:
             if author not in self.authors:
-                self.authors.append(author)
+                self.authors.append(author.strip())
 
     def inject_journals(self, journal):
         """

@@ -1,5 +1,22 @@
 """
 This module contains the implementation of the Tim Sort algorithm.
+
+Explicación del algoritmo:
+Timsort es una algoritmo híbrido, que usa tanto merge sort como insertion sort para ordenar listas
+El algoritmo inicializa una variable llamada MIN_MERGE, que son los chunks o bloques de elementos
+que separará de la lista, luego, ordena esta cantidad de elementos con insertion sort 
+(que resulta eficiente para listas pequeñas).
+Por ultimo, usa merge sort para combinas estos bloques ordenados en una lista ordenada completa
+
+Precauciones:
+Dependienco de los chunks de elementos, el algoritmo puede ser inestable y lento, 
+ya que insertion sort es O(n^2) y en datos muy grandes puede ser ineficiente
+
+Por lo demás el elgoritmo es estable y eficiente para listas pequeñas y grandes,
+eso se refleja en la gráfica
+
+O(n log n)
+
 """
 
 

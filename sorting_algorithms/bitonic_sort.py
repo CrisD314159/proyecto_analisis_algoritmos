@@ -1,5 +1,26 @@
 """
 Bitonic sort module
+
+Es un algoritmo basado en divide y vencerás
+
+El algoritmo parte de dividir en secuencias bitónicas el arreglo
+
+(Una secuencia bitónica es una secuencia que primero es creciente y luego decreciente)
+
+El arreglo se divide en dos partes, una parte se ordena de forma ascendente y la otra de forma descendente
+
+Luego, comparan y se intercambian los elementos en pares, 
+asegurando que la secuencia resultante sea completamente ordenada.
+Esta fase se realiza de forma recursive 
+
+este proceso se repite hasta que el arreglo esté completamente ordenado
+
+Precauciones:
+Es un logaritmo eficiente para hardware paralelo o especializado
+En listas grandes de strings con elementos grandes puede ser algo ineficiente
+
+O(n log^2 n)
+
 """
 
 

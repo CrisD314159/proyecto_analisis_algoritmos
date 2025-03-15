@@ -1,5 +1,20 @@
 """
 Module for heap sort algorithm.
+
+Explicación
+Este algoritmo utiliza una estructura de datos llamada heap, es en sintesis es un arbol binario
+Para este caso, se usa max heap, donde el nodo padre es mayor que los nodos hijos
+El algoritmo inicia creando un heap con los elementos del array, luego se intercambia el primer
+elemento con el último, y se llama recursivamente a heapify para que el array quede ordenado
+de mayor a menor de forma descendente
+
+Precauciones:
+El algoritmo generalmente es eficiente para listas grandes
+
+Puede fallar si se desbalancea el heap, ya que 
+en todo momento se espera que el nodo padre sea el mayor
+
+O(n log n)
 """
 
 

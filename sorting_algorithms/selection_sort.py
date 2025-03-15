@@ -1,5 +1,16 @@
 """
 Module for selection sort algorithm.
+
+Explicación:
+Selection sort es uno de los algoritmos más ineficientes pero simples de ordenamiento
+Básicamente lo que el algoritmo hace es recorrer elemento por elemento de la lista, 
+buscando el menor elemento, una vez encontrado, lo intercambia con el primer elemento
+y así sucesivamente hasta que la lista esté ordenada
+
+Precauciones:
+Si es una lista pequeña, puede ser eficiente, de lo contrario, es muy ineficiente
+
+O(n^2)
 """
 
 

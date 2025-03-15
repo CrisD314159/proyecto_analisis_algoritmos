@@ -1,5 +1,29 @@
 """
 Radix sort algorithm implementation as a class.
+Explicación:
+Este algoritmo resulta interesante que que no compara los elementos del array, sino que los ordena
+los elementos caracter a caracter en este caso.
+
+El algoritmo inicia en la ultima posición de los elementos (ultima letra)
+y al inicio crea un diccionario (buckets) con los elementos de la lista, donde la llave es el
+ultimo caracter:
+
+Para ordenar ["apple", "banana", "kiwi"]:
+“e” → ["apple"]
+“a” → ["banana"]
+“i” → ["kiwi"]
+
+y así sucesivamente con los demás caracteres, hasta que la lista esté ordenada
+
+Precauciones:
+El algoritmo es eficiente para listas de strings, pero si estas listas
+son muy grandes y las palabras tienen demasiados caracteres, el algoritmo
+se vuelve inneficiente
+
+O(n * k) donde k es el número de caracteres de la palabra más larga
+
+
+
 """
 
 

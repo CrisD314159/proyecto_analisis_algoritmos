@@ -1,10 +1,34 @@
 """
 Module for bucket sort algorithm.
+
+Explicación del algoritmo:
+Este algoritmo presenta un funcionamiento similar al pigeonhole
+
+Su principio parte de distribuir los elementos en diferentes "buckets" o "cubetas"
+las cuales se ordenan individualmente, y luego se concatenan para formar el array ordenado
+
+en principio se usa el tamaño del array para establecer los buckets 
+para este caso que se esperan grandes cantidades de elementos, se puede establecer un tamaño (26)
+para el alfabeto en inglés
+
+se distribuyen los elementos en los buckets de acuerdo a la primera letra de la palabra
+luego, se ordenan los buckets individualmente y se mezclan para formar el array ordenado
+
+Precauciones:
+Puede llegar a ser muy eficiente si se establece un tamaño adecuado para los buckets
+y si la distribución de los elementos es uniforme
+
+Si llega a pasar de que las palabras quedan en el mismo bucket, se puede volver ineficiente
+
+puede también ocupar mucha memoria si se usan muchos buckets
+
+
+
 """
 
 
 class BucketSort:
-    def __init__(self, bucket_size=5):
+    def __init__(self, bucket_size=26):
         """
         Initialize BucketSort with specified bucket size
 

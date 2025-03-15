@@ -1,5 +1,22 @@
 """
 Binary Insertion Sort
+Explicación:
+Este algoritmo tiene una mejora respecto al de inserción, ya que en lugar de comparar
+elemento por elemento, utiliza una búsqueda binaria para encontrar la posición correcta
+del elemento en el array
+
+En principio, el algoritmo selecciona un elemento y usa la búsqueda binaria para obtener el 
+indice donde se debe insertar el elemento
+Para insertar el elemento, se desplazan los elementos a la derecha para hacer espacio
+y se inserta el elemento en la posición correcta
+
+Se repite el proceso con cada elemento de la lista
+
+Precauciones:
+No es recomendable para listas muy grandes, ya que la búsqueda binaria puede ser costosa 
+además que el desplaamiento de elementos puede ser también costoso
+
+
 """
 
 

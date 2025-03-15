@@ -1,5 +1,21 @@
 """
 Module for comb sort algorithm.
+
+Explicación:
+Este algoritmo es una mejora del bubble sort, pero con comparaciones reducidas
+
+el algoritmo inicia con un gap, que es el espacio entre los elementos a comparar
+también elige un shrink, que es el factor de reducción del gap
+
+El algoritmo realiza una iteración para comparar el elemento del indice i con 
+el elemento del indice i mas el gap, acto seguido reduce el gap y repite el proceso
+
+Cuando el gap es 1, el algortimo se da por hecho que la lista está ordenada y termina
+la iteración
+
+Precauciones:
+
+en el mejor de los casos es O(n log n), pero en el peor de los casos es O(n^2)
 """
 
 

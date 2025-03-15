@@ -6,7 +6,7 @@ from scrappers.acm_undetected import ACMSUndetectedScrapper
 from utils.utils import Utils
 from scrappers.sage_scrapper import SageScraper
 from reader_resources.reader_implementation import ReaderImplementation
-from sorting_algorithms.radix_sort import RadixSort
+from sorting_algorithms.bucket_sort import BucketSort
 
 
 utils = Utils()
@@ -30,6 +30,6 @@ reader.read_bib_files()
 arr = ["apple", "banana", "date", "strawberry", "kiwi", "orange", "grape",
        "cherry", "mango", "pear", "peach", "plum", "watermelon", "melon"]
 
-radix = RadixSort(arr)
-lista = radix.sort()
+radix = BucketSort()
+lista = radix.bucketSort(arr)
 print(lista)
