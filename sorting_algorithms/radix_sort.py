@@ -2,50 +2,29 @@
 Radix sort algorithm implementation as a class.
 """
 
+
 from collections import defaultdict
 
 
 class RadixSort:
-    """
-    A class that implements the radix sort algorithm for sorting strings.
-    """
+    def __init__(self, arr):
+        self.arr = arr
+        self.max_length = max(len(word) for word in arr) if arr else 0
 
-    @staticmethod
-    def _counting_sort(arr, pos):
-        """
-        Counting sort algorithm implementation used as a helper method.
+    def sort(self):
+        for pos in range(self.max_length - 1, -1, -1):
+            self.arr = self._counting_sort(self.arr, pos)
+        return self.arr
 
-        Args:
-            arr: List of strings to sort
-            pos: Position of character to sort by
-        """
+    def _counting_sort(self, arr, pos):
         buckets = defaultdict(list)
+
         for word in arr:
             char = word[pos] if pos < len(word) else ""
             buckets[char].append(word)
 
-        index = 0
-        for key in sorted(buckets.keys()):
-            for word in buckets[key]:
-                arr[index] = word
-                index += 1
+        sorted_arr = []
+        for key in sorted(buckets.keys()):  # Sorting keys ensures lexicographic order
+            sorted_arr.extend(buckets[key])
 
-    @staticmethod
-    def sort(arr):
-        """
-        Sort the given array using radix sort algorithm.
-
-        Args:
-            arr: List of strings to sort
-
-        Returns:
-            The sorted list (same object, sorted in-place)
-        """
-        if not arr:
-            return arr
-
-        max_length = max(len(word) for word in arr)
-        for pos in range(max_length - 1, -1, -1):
-            RadixSort._counting_sort(arr, pos)
-
-        return arr
+        return sorted_arr

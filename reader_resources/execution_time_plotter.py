@@ -21,5 +21,6 @@ class ExecutionTimePlotter:
         plt.bar(self.algorithms, self.execution_times)
         plt.xlabel('Algoritmos')
         plt.ylabel('Tiempo de ejecución (ms)')
-        plt.title(title)
+        plt.title(
+            f"Tiempo de ejecución de los algoritmos para la variable: {title}")
         plt.show()

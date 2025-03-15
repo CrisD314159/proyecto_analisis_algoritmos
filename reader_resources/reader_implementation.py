@@ -60,7 +60,6 @@ class ReaderImplementation:
             with open(file, encoding='utf-8') as bib_file:
                 library = bib.load(bib_file)
             file_entries = library.entries
-            print(len(file_entries), " Entries Found in ", file)
 
             for entry in file_entries:
                 self.separate_entry_keys(entry)
@@ -114,8 +113,6 @@ class ReaderImplementation:
                 self.articles.append(article)
         except Exception as e:
             print(e)
-            print(e.args)
-            print(entry)
 
     def verify_article_exists(self, title):
         """
@@ -161,13 +158,13 @@ class ReaderImplementation:
         """
         AlgorithmsExecution.execute_algorithms(
             self.titles,
-            'Tiempos de ejecución de algoritmos de ordenamiento para la variable TITLE')
+            'TITLE')
         AlgorithmsExecution.execute_algorithms(
             self.authors,
-            'Tiempos de ejecución de algoritmos de ordenamiento para la variable AUTHOR')
+            'AUTHOR')
         AlgorithmsExecution.execute_algorithms(
             self.journals,
-            'Tiempos de ejecución de algoritmos de ordenamiento para la variable JOURNAL')
+            'JOURNAL')
         AlgorithmsExecution.execute_algorithms(
             self.keywords,
-            'Tiempos de ejecución de algoritmos de ordenamiento para la variable KEYWORDS')
+            'KEYWORDS')

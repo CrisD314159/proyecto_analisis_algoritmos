@@ -60,7 +60,8 @@ class AlgorithmsExecution:
         """
         try:
             arr_copy = arr
-            BucketSort.bucket_sort(arr_copy)
+            bucket = BucketSort()
+            bucket.sort(arr_copy)
             return "Bucket"
         except IndexError:
             print("Error executing the Bucket tree algorithm (Index out of range)")
@@ -87,7 +88,7 @@ class AlgorithmsExecution:
         try:
             arr_copy = arr
             gnome = GnomeSort()
-            gnome.sort(arr_copy)
+            array = gnome.sort(arr_copy)
             return "Gnome"
         except IndexError:
             print("Error executing the Gnome Sort algorithm (Index out of range)")
@@ -143,7 +144,8 @@ class AlgorithmsExecution:
         """
         try:
             arr_copy = arr
-            RadixSort.sort(arr_copy)
+            radix = RadixSort(arr=arr_copy)
+            radix.sort()
             return "Radix"
         except IndexError:
             print("Error executing the Radix algorithm (Index out of range)")
@@ -222,6 +224,8 @@ class AlgorithmsExecution:
             end = time.time()
             exec_time = (end - start) * 1000
             if name != -1:
+                print(
+                    f"Algorithm {name} executed in {exec_time} ms for the variable {plotter_name}")
                 algorithms_names.append(name)
                 times.append(exec_time)
 
