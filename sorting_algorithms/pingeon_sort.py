@@ -15,7 +15,7 @@ distancia = a - k = 10  + 1 =  => por lo tanto pingeonhole crea 11 huecos para o
 
 Luego, para cada palabra encuentra el íncide del casillero o hueco mediante el siguiente calculo
 index = ord(word[0]) - ord(min_value[0]) 
-Que es la distancia de la primera letra de la palabra, con la primera letra de la palabra más 
+Que es la distancia de la primera letra de la palabra, con la primera letra de la palabra
 
 Una vez encuentra el índice, inserta la palabra en el casillero correspondiente
 

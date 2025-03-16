@@ -5,8 +5,10 @@
 import os
 import glob
 import re
+import uuid
 import bibtexparser as bib
 from reader_resources.algorithms_execution import AlgorithmsExecution
+from reader_resources.create_output_files import OutputFiles
 
 
 class ReaderImplementation:
@@ -21,7 +23,7 @@ class ReaderImplementation:
         self.journals = []
         self.keywords = []
         self.articles = []
-        self.repeat_titles = []
+        self.repeated_articles = []
 
     def list_bib_files(self, directory='researchFiles'):
         """
@@ -69,8 +71,8 @@ class ReaderImplementation:
         print(len(self.journals), " Journals Filtered")
         print(len(self.keywords), " Keywords Filtered")
         print(len(self.authors), " Authors Filtered")
-        print(len(self.repeat_titles), " Repeated Articles")
-        self.plot_results()
+        print(len(self.repeated_articles), " Repeated Articles")
+        self.generate_output_files()
 
     def separate_entry_keys(self, entry):
         """
@@ -78,13 +80,17 @@ class ReaderImplementation:
         """
         try:
 
-            article = {}
+            article = {
+                "ENTRYTYPE": "Filtered Article",
+                "ID": str(uuid.uuid4())
+            }
+
             # Extract authors if present
             if 'author' in entry:
                 # Split authors by 'and' and strip whitespace
                 authors = [author.strip()
                            for author in re.split(' and |,', entry['author'])]
-                article['authors'] = authors
+                article['authors'] = str(authors)
                 self.inject_authors(authors)
 
             if 'title' in entry:
@@ -100,7 +106,7 @@ class ReaderImplementation:
             if 'keywords' in entry:
                 keywords = [keyword.strip()
                             for keyword in re.split(',', entry['keywords'])]
-                article['keywords'] = keywords
+                article['keywords'] = str(keywords)
                 self.inject_keywords(keywords)
 
             if 'year' in entry:
@@ -108,7 +114,7 @@ class ReaderImplementation:
                 article['year'] = year
 
             if self.verify_article_exists(article['title']):
-                self.repeat_titles.append(article)
+                self.repeated_articles.append(article)
             else:
                 self.articles.append(article)
         except Exception as e:
@@ -168,3 +174,12 @@ class ReaderImplementation:
         AlgorithmsExecution.execute_algorithms(
             self.keywords,
             'KEYWORDS')
+
+    def generate_output_files(self):
+        """
+        Generates the output files
+        """
+        OutputFiles.create_output_file(self.articles, "filtered_articles")
+        OutputFiles.create_output_file(
+            self.repeated_articles, "repeated_articles")
+        print("Output files created")
