@@ -201,6 +201,8 @@ class AlgorithmsExecution:
         """
         Execute all sorting algorithms.
         """
+
+        # List that contains the algorithms to execute
         algorithms = [
             AlgorithmsExecution.run_binary,
             AlgorithmsExecution.run_bitonic,
@@ -216,15 +218,16 @@ class AlgorithmsExecution:
             AlgorithmsExecution.run_tree
         ]
 
-        times = []
-        algorithms_names = []
+        times = []  # list to store the execution times
+        algorithms_names = []  # list to store the algorithms name
 
         for algorithm in algorithms:
-            start = time.time()
+            start = time.time()  # used to calculate the execution time
             name = algorithm(arr)
-            end = time.time()
+            end = time.time()  # used to calculate the execution time
+            # Converts the execution to milisecs
             exec_time = (end - start) * 1000
-            if name != -1:
+            if name != -1:  # if returns a -1, that means there was an error in the execution
                 print(
                     f"Algorithm {name} executed in {exec_time} ms for the variable {plotter_name}")
                 algorithms_names.append(name)

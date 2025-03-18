@@ -6,21 +6,25 @@ from scrappers.acm_undetected import ACMSUndetectedScrapper
 from utils.utils import Utils
 from scrappers.sage_scrapper import SageScraper
 from reader_resources.reader_implementation import ReaderImplementation
+from scrappers.iee_scrapper import IeeeScrapper
 
 
 utils = Utils()
 
-# scopus = ScopusScraper()
-# scopus.run()
+scopus = ScopusScraper()
+scopus.run()
 
-# sage = SageScraper()
-# sage.run()
+sage = SageScraper()
+sage.run()
 
-# acm = ACMSUndetectedScrapper(
+# acm = ACMSUndetectedScrapper(  Deprecated module due to database problems
 #     use_undetected=True)
 # acm.run()
 
-utils.move_downloaded_files()
+iee = IeeeScrapper()
+iee.run()
+
+# utils.move_downloaded_files()
 
 
 reader = ReaderImplementation()

@@ -17,6 +17,8 @@ class ExecutionTimePlotter:
     def plot_execution_times(self, title):
         """
         Plot the execution times of the algorithms.
+        Uses the algoritms names and execution times lists
+        received in the class constructor to plot bar graphs
         """
         plt.bar(self.algorithms, self.execution_times)
         plt.xlabel('Algoritmos')

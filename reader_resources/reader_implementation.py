@@ -64,15 +64,14 @@ class ReaderImplementation:
             file_entries = library.entries
 
             for entry in file_entries:
+                # One entry equals one article
+                # Separates and filters every entry from the article
                 self.separate_entry_keys(entry)
 
-        print(len(self.titles), " Titles Filtered")
-        print(len(self.articles), " Articles Filtered")
-        print(len(self.journals), " Journals Filtered")
-        print(len(self.keywords), " Keywords Filtered")
-        print(len(self.authors), " Authors Filtered")
-        print(len(self.repeated_articles), " Repeated Articles")
-        self.generate_output_files()
+        # PLOT AND OUTPUT FILE GENERATION
+        self.print_results()    # Prints the filter results
+        self.generate_output_files()  # Generates the output files
+        self.plot_results()     # Generates a bar graph for the execution results
 
     def separate_entry_keys(self, entry):
         """
@@ -80,6 +79,7 @@ class ReaderImplementation:
         """
         try:
 
+            # Creates an entire new filteren article
             article = {
                 "ENTRYTYPE": "Filtered Article",
                 "ID": str(uuid.uuid4())
@@ -91,7 +91,7 @@ class ReaderImplementation:
                 authors = [author.strip()
                            for author in re.split(' and |,', entry['author'])]
                 article['authors'] = str(authors)
-                self.inject_authors(authors)
+                self.inject_authors(authors)  # Injected to plotter
 
             if 'title' in entry:
                 title = entry['title']
@@ -101,18 +101,19 @@ class ReaderImplementation:
             if 'journal' in entry or 'publisher' in entry:
                 journal = entry['journal'] if 'journal' in entry else entry['publisher']
                 article['journal'] = journal
-                self.inject_journals(journal)
+                self.inject_journals(journal)  # Injected to plotter
 
             if 'keywords' in entry:
                 keywords = [keyword.strip()
                             for keyword in re.split(',', entry['keywords'])]
                 article['keywords'] = str(keywords)
-                self.inject_keywords(keywords)
+                self.inject_keywords(keywords)  # Injected to plotter
 
             if 'year' in entry:
                 year = entry['year']
                 article['year'] = year
 
+            # Prevents a duplicated article
             if self.verify_article_exists(article['title']):
                 self.repeated_articles.append(article)
             else:
@@ -160,7 +161,8 @@ class ReaderImplementation:
 
     def plot_results(self):
         """
-        Plots the results of the algorithms
+        Executes all the algorithms for the filtered results
+        and then plots the results 
         """
         AlgorithmsExecution.execute_algorithms(
             self.titles,
@@ -178,8 +180,18 @@ class ReaderImplementation:
     def generate_output_files(self):
         """
         Generates the output files
+        1 bib file for filtered articles
+        1 bib file for the repeated files
         """
         OutputFiles.create_output_file(self.articles, "filtered_articles")
         OutputFiles.create_output_file(
             self.repeated_articles, "repeated_articles")
         print("Output files created")
+
+    def print_results(self):
+        print(len(self.titles), " Titles Filtered")
+        print(len(self.articles), " Articles Filtered")
+        print(len(self.journals), " Journals Filtered")
+        print(len(self.keywords), " Keywords Filtered")
+        print(len(self.authors), " Authors Filtered")
+        print(len(self.repeated_articles), " Repeated Articles")
