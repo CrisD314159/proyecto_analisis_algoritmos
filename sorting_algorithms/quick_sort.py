@@ -36,4 +36,4 @@ class StringQuickSort:
         """
         Run method for Selection Sort algorithm.
         """
-        self.quick_sort(arr)
+        return self.quick_sort(arr)

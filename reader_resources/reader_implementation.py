@@ -9,6 +9,7 @@ import uuid
 import bibtexparser as bib
 from reader_resources.algorithms_execution import AlgorithmsExecution
 from reader_resources.create_output_files import OutputFiles
+from reader_resources.abstract_processing import AbstractProcessing
 
 
 class ReaderImplementation:
@@ -23,6 +24,7 @@ class ReaderImplementation:
         self.journals = []
         self.keywords = []
         self.articles = []
+        self.abstracts_words = []
         self.repeated_articles = []
 
     def list_bib_files(self, directory='researchFiles'):
@@ -113,6 +115,12 @@ class ReaderImplementation:
                 year = entry['year']
                 article['year'] = year
 
+            if 'abstract' in entry:
+                abstract = entry['abstract']
+                words = AbstractProcessing.separate_white_spaces(
+                    abstract=abstract)
+                self.abstracts_words = self.abstracts_words + words
+
             # Prevents a duplicated article
             if self.verify_article_exists(article['title']):
                 self.repeated_articles.append(article)
@@ -188,7 +196,13 @@ class ReaderImplementation:
             self.repeated_articles, "repeated_articles")
         print("Output files created")
 
+    def process_abstracts(self):
+        pass
+
     def print_results(self):
+        """
+        Prints the obtained results
+        """
         print(len(self.titles), " Titles Filtered")
         print(len(self.articles), " Articles Filtered")
         print(len(self.journals), " Journals Filtered")

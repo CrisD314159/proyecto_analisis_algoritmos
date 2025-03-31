@@ -2,7 +2,6 @@
   Main module of the project
 """
 from scrappers.ScopusScrapper import ScopusScraper
-from scrappers.acm_undetected import ACMSUndetectedScrapper
 from utils.utils import Utils
 from scrappers.sage_scrapper import SageScraper
 from reader_resources.reader_implementation import ReaderImplementation
@@ -24,7 +23,7 @@ sage.run()
 iee = IeeeScrapper()
 iee.run()
 
-# utils.move_downloaded_files()
+utils.move_downloaded_files()
 
 
 reader = ReaderImplementation()

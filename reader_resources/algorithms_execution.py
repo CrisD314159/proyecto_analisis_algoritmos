@@ -32,7 +32,7 @@ class AlgorithmsExecution:
 
             arr_copy = arr
             BinaryInsertionSort.sort_in_place(arr_copy)
-            return "Binary"
+            return "Binary", arr_copy
         except RecursionError:
             print("Error executing the Binary insertion algorithm")
             return -1
@@ -45,7 +45,7 @@ class AlgorithmsExecution:
         try:
             arr_copy = arr
             BitonicSort.sort(arr_copy)
-            return "Bitonic"
+            return "Bitonic", arr_copy
         except RecursionError:
             print("Error on recusion Bitonic sort method")
             return -1
@@ -61,8 +61,8 @@ class AlgorithmsExecution:
         try:
             arr_copy = arr
             bucket = BucketSort()
-            bucket.sort(arr_copy)
-            return "Bucket"
+            result = bucket.sort(arr_copy)
+            return "Bucket", result
         except IndexError:
             print("Error executing the Bucket tree algorithm (Index out of range)")
             return -1
@@ -75,7 +75,7 @@ class AlgorithmsExecution:
         try:
             arr_copy = arr
             CombSort.comb_sort(arr_copy)
-            return "Comb"
+            return "Comb", arr_copy
         except IndexError:
             print("Error executing the Comb Sort algorithm (Index out of range)")
             return -1
@@ -88,8 +88,8 @@ class AlgorithmsExecution:
         try:
             arr_copy = arr
             gnome = GnomeSort()
-            array = gnome.sort(arr_copy)
-            return "Gnome"
+            result = gnome.sort(arr_copy)
+            return "Gnome", result
         except IndexError:
             print("Error executing the Gnome Sort algorithm (Index out of range)")
             return -1
@@ -102,7 +102,7 @@ class AlgorithmsExecution:
         try:
             arr_copy = arr
             HeapSort.heap_sort(arr_copy)
-            return "Heap"
+            return "Heap", arr_copy
         except IndexError:
             print("Error executing the Heap Sort algorithm (Index out of range)")
             return -1
@@ -115,7 +115,7 @@ class AlgorithmsExecution:
         try:
             arr_copy = arr
             PingeonSort.pigeonhole_sort(arr_copy)
-            return "Pingeon"
+            return "Pingeon", arr_copy
         except IndexError:
             print("Error executing the Pingeon algorithm (Index out of range)")
             return -1
@@ -128,8 +128,8 @@ class AlgorithmsExecution:
         try:
             arr_copy = arr
             quicksort = StringQuickSort()
-            quicksort.run_quick_sort(arr_copy)
-            return "Quick"
+            result = quicksort.run_quick_sort(arr_copy)
+            return "Quick", result
         except RecursionError:
             print("Error executing the Quick Sort algorithm")
             return -1
@@ -145,8 +145,8 @@ class AlgorithmsExecution:
         try:
             arr_copy = arr
             radix = RadixSort(arr=arr_copy)
-            radix.sort()
-            return "Radix"
+            result = radix.sort()
+            return "Radix", result
         except IndexError:
             print("Error executing the Radix algorithm (Index out of range)")
             return -1
@@ -159,7 +159,7 @@ class AlgorithmsExecution:
         try:
             arr_copy = arr
             SelectionSort.selection_sort(arr_copy)
-            return "Selection"
+            return "Selection", arr_copy
         except IndexError:
             print("Error executing the Selection Sort algorithm (Index out of range)")
             return -1
@@ -173,7 +173,7 @@ class AlgorithmsExecution:
             arr_copy = arr
             tim = TimSort()
             tim.run_tim_sort(arr_copy)
-            return "Tim"
+            return "Tim", arr_copy
         except IndexError:
             print("Error executing the Tim algorithm (Index out of range)")
             return -1
@@ -187,8 +187,8 @@ class AlgorithmsExecution:
 
             arr_copy = arr
             tree = TreeSort(arr_copy)
-            tree.sort()
-            return "Tree"
+            result = tree.sort()
+            return "Tree", result
         except RecursionError:
             print("Error executing the Tree sort algorithm")
             return -1
@@ -223,7 +223,7 @@ class AlgorithmsExecution:
 
         for algorithm in algorithms:
             start = time.time()  # used to calculate the execution time
-            name = algorithm(arr)
+            name, result = algorithm(arr)
             end = time.time()  # used to calculate the execution time
             # Converts the execution to milisecs
             exec_time = (end - start) * 1000
