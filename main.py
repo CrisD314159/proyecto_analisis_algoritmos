@@ -8,22 +8,22 @@ from reader_resources.reader_implementation import ReaderImplementation
 from scrappers.iee_scrapper import IeeeScrapper
 
 
-utils = Utils()
+# utils = Utils()
 
-scopus = ScopusScraper()
-scopus.run()
+# scopus = ScopusScraper()
+# scopus.run()
 
-sage = SageScraper()
-sage.run()
+# sage = SageScraper()
+# sage.run()
 
-# acm = ACMSUndetectedScrapper(  Deprecated module due to database problems
-#     use_undetected=True)
-# acm.run()
+# # acm = ACMSUndetectedScrapper(  Deprecated module due to database problems
+# #     use_undetected=True)
+# # acm.run()
 
-iee = IeeeScrapper()
-iee.run()
+# iee = IeeeScrapper()
+# iee.run()
 
-utils.move_downloaded_files()
+# utils.move_downloaded_files()
 
 
 reader = ReaderImplementation()

@@ -71,9 +71,10 @@ class ReaderImplementation:
                 self.separate_entry_keys(entry)
 
         # PLOT AND OUTPUT FILE GENERATION
-        self.print_results()    # Prints the filter results
-        self.generate_output_files()  # Generates the output files
-        self.plot_results()     # Generates a bar graph for the execution results
+        # self.print_results()    # Prints the filter results
+        # self.generate_output_files()  # Generates the output files
+        # self.plot_results()     # Generates a bar graph for the execution results
+        self.process_abstracts()
 
     def separate_entry_keys(self, entry):
         """
@@ -197,7 +198,9 @@ class ReaderImplementation:
         print("Output files created")
 
     def process_abstracts(self):
-        pass
+        "Process an plots the abstract words"
+        abstract = AbstractProcessing()
+        abstract.filter_keywords(self.abstracts_words)
 
     def print_results(self):
         """

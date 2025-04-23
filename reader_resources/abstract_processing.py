@@ -4,7 +4,9 @@
 """
 import re
 import time
+from tabulate import tabulate
 from reader_resources.algorithms_execution import AlgorithmsExecution
+from sorting_algorithms.bubble_sort import StringBubbleSort
 
 
 class AbstractProcessing:
@@ -17,7 +19,10 @@ class AbstractProcessing:
                          "logic", "conditionals", "loops",
                          "motivation", "persistence", "block", "mobile",
                          "application", "programming", "robotic", "scratch"]
-        self.keywords_appereances = []
+        self.keywords_appereances = {'abstraction': 0, 'algorithm': 0, 'coding': 0, 'creativity': 0,
+                                     'logic': 0, 'conditionals': 0, 'loops': 0,
+                                     'motivation': 0, 'persistence': 0, 'block': 0, 'mobile': 0,
+                                     'application': 0, 'programming': 0, 'robotic': 0, 'scratch': 0}
 
     @staticmethod
     def separate_white_spaces(abstract):
@@ -28,40 +33,31 @@ class AbstractProcessing:
         words = re.split(r'[,\s]+', abstract.strip())
         return words
 
-    @staticmethod
-    def execute_algorithms(arr, plotter_name):
+    def filter_keywords(self, abstract_words):
         """
-            Execute all sorting algorithms.
-            """
+        This method filters the keywords declared in this class init method
+        """
+        for keyword in self.keywords:
+            for word in abstract_words:
+                if word.lower() == keyword:
+                    self.keywords_appereances[f'{keyword}'] = self.keywords_appereances[f'{keyword}'] + 1
 
-        # List that contains the algorithms to execute
-        algorithms = [
-            AlgorithmsExecution.run_binary,
-            AlgorithmsExecution.run_bitonic,
-            AlgorithmsExecution.run_bucket,
-            AlgorithmsExecution.run_comb,
-            AlgorithmsExecution.run_gnome,
-            AlgorithmsExecution.run_heap,
-            AlgorithmsExecution.run_pingeon,
-            AlgorithmsExecution.run_quick,
-            AlgorithmsExecution.run_radix,
-            AlgorithmsExecution.run_selection,
-            AlgorithmsExecution.run_tim,
-            AlgorithmsExecution.run_tree
-        ]
+        table_data = [(key, value)
+                      for key, value in self.keywords_appereances.items()]
 
-        times = []  # list to store the execution times
-        algorithms_names = []  # list to store the algorithms name
+        print(tabulate(table_data, headers=[
+              "Keyword", "Repetitions"], tablefmt="grid"))
 
-        for algorithm in algorithms:
-            start = time.time()  # used to calculate the execution time
-            # TODO make each algorithm return an arraoy witrh two values [name, results]
-            name, result = algorithm(arr)
-            end = time.time()  # used to calculate the execution time
-            # Converts the execution to milisecs
-            exec_time = (end - start) * 1000
-            if name != -1:  # if returns a -1, that means there was an error in the execution
-                print(
-                    f"Algorithm {name} executed in {exec_time} ms for the variable {plotter_name}")
-                algorithms_names.append(name)
-                times.append(exec_time)
+        print("Total of words", len(abstract_words))
+        print("Algorithms will only take first 20000 words")
+
+        # bubble = StringBubbleSort()
+        # start = time.time()
+        # bubble.sort(abstract_words[:20000])
+        # end = time.time()
+
+        # execution = (end - start) * 1000
+        # print("Execution for bubble = ", execution)
+
+        AlgorithmsExecution.execute_algorithms(
+            abstract_words[:20000], "Abstract")

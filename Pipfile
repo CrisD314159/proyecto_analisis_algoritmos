@@ -9,9 +9,12 @@ pandas = "*"
 python-dotenv = "*"
 undetected-chromedriver = "*"
 bibtexparser = "*"
-matplotlib = "*"
 pybtex = "*"
 tabulate = "*"
+nltk = "*"
+scikit-learn = "*"
+scipy = "*"
+matplotlib = "*"
 
 [dev-packages]
 
