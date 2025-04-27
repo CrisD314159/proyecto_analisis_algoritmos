@@ -10,6 +10,8 @@ import bibtexparser as bib
 from reader_resources.algorithms_execution import AlgorithmsExecution
 from reader_resources.create_output_files import OutputFiles
 from reader_resources.abstract_processing import AbstractProcessing
+from abstract_text_preprocessing.text_preprocessing import TextPreprocessing
+from abstract_text_preprocessing.dendrogram_ploting import TextVectorization
 
 
 class ReaderImplementation:
@@ -74,7 +76,8 @@ class ReaderImplementation:
         # self.print_results()    # Prints the filter results
         # self.generate_output_files()  # Generates the output files
         # self.plot_results()     # Generates a bar graph for the execution results
-        self.process_abstracts()
+        # self.process_abstracts()
+        self.preprocess_abstracts()
 
     def separate_entry_keys(self, entry):
         """
@@ -117,10 +120,12 @@ class ReaderImplementation:
                 article['year'] = year
 
             if 'abstract' in entry:
-                abstract = entry['abstract']
-                words = AbstractProcessing.separate_white_spaces(
-                    abstract=abstract)
-                self.abstracts_words = self.abstracts_words + words
+                abstract_text = entry['abstract']
+                # USED FOR ABSTRACT WORDS PROCESSING (SEGUIMIENTO 2)
+                # words = AbstractProcessing.separate_white_spaces(
+                #     abstract=abstract)
+                # self.abstracts_words = self.abstracts_words + words
+                article['abstract'] = abstract_text
 
             # Prevents a duplicated article
             if self.verify_article_exists(article['title']):
@@ -201,6 +206,18 @@ class ReaderImplementation:
         "Process an plots the abstract words"
         abstract = AbstractProcessing()
         abstract.filter_keywords(self.abstracts_words)
+
+    def preprocess_abstracts(self):
+        preprocessing = TextPreprocessing()
+        for article in self.articles:
+            if 'abstract' in article:
+                preprocessing.preprocess_text(
+                    article['abstract'], article['title'])
+        preprocessed_abstracts = preprocessing.preprocessed_abstracts
+
+        dendrogram = TextVectorization()
+        dendrogram.transform_text(
+            preprocessed_abstracts=preprocessed_abstracts)
 
     def print_results(self):
         """

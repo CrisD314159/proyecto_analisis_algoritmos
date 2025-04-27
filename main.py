@@ -6,6 +6,7 @@ from utils.utils import Utils
 from scrappers.sage_scrapper import SageScraper
 from reader_resources.reader_implementation import ReaderImplementation
 from scrappers.iee_scrapper import IeeeScrapper
+from abstract_text_preprocessing.text_preprocessing import TextPreprocessing
 
 
 # utils = Utils()
