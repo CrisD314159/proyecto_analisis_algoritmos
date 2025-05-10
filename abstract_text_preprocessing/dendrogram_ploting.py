@@ -24,13 +24,17 @@ class TextVectorization:
         Method used to vectorize, calculate matrix length, hierarchical clustering 
         """
         texts = list(preprocessed_abstracts.values())
+
         titles = list(preprocessed_abstracts.keys())
+
         vectorizer = TfidfVectorizer()
+
         x = vectorizer.fit_transform(texts)
+
         distances = pdist(x.toarray(), metric='euclidean')
-        # Ward linkage
+
         z_ward = linkage(distances, method='ward')
-        # Average linkage
+
         z_average = linkage(distances, method='average')
 
         self.plot_dendogram(z_ward, z_average, titles)

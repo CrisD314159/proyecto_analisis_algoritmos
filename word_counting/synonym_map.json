@@ -1,0 +1,24 @@
+{
+  "Primary school": "Primary education",
+  "Elementary school": "Primary education",
+  "High school": "Secondary education",
+  "Coding": "Programming",
+  "Logic thinking": "Logical thinking",
+  "Critical thinking skills": "Critical thinking",
+  "CTT":"Classical Test Theory",
+  "CFA":"Confirmatory Factor Analysis",
+  "EFA": "Exploratory Factor Analysis",
+  "IRT":"Item Response Theory",
+  "SEM":"Structural Equation Model",
+  "BCTt":"Beginners Computational Thinking test",
+  "ESCAS": "Coding Attitudes Survey",
+  "cCTt":"Competent Computational Thinking test",
+  "CTST":"Computational thinking skills test",
+  "CTA":"Students",
+  "CTC":"Computational Thinking Challenge",
+  "CTLS":"Computational Thinking Levels Scale",
+  "CTS":"Computational Thinking Scale",
+  "CTtLP":"Computational Thinking Test for Lower Primary",
+  "CAPCT":"Computerized Adaptive Programming Concepts Test"
+
+}

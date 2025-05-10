@@ -38,10 +38,15 @@ class TextPreprocessing:
           Preprocess all the texto from the abstracts
         """
         lowercase = self.lowercase_text(text)
+
         no_numbers = self.remove_numbers(lowercase)
+
         no_punctuation = self.remove_punctuation(no_numbers)
+
         no_white_spaces = self.remove_whitespace(no_punctuation)
+
         no_stopwords = self.remove_stopwords(no_white_spaces)
+
         stemmed = self.stem_words(no_stopwords)
         self.preprocessed_abstracts[title] = stemmed
 

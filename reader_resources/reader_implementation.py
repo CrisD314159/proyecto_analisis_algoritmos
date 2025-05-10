@@ -10,8 +10,10 @@ import bibtexparser as bib
 from reader_resources.algorithms_execution import AlgorithmsExecution
 from reader_resources.create_output_files import OutputFiles
 from reader_resources.abstract_processing import AbstractProcessing
+from reader_resources.generate_statistics import generate_statistics
 from abstract_text_preprocessing.text_preprocessing import TextPreprocessing
 from abstract_text_preprocessing.dendrogram_ploting import TextVectorization
+from word_counting.word_counting import execute_wordcounting
 
 
 class ReaderImplementation:
@@ -77,7 +79,9 @@ class ReaderImplementation:
         # self.generate_output_files()  # Generates the output files
         # self.plot_results()     # Generates a bar graph for the execution results
         # self.process_abstracts()
-        self.preprocess_abstracts()
+        # generate_statistics(self.articles)
+        execute_wordcounting(self.articles)
+        # self.preprocess_abstracts()
 
     def separate_entry_keys(self, entry):
         """
@@ -208,6 +212,7 @@ class ReaderImplementation:
         abstract.filter_keywords(self.abstracts_words)
 
     def preprocess_abstracts(self):
+        """Preprocess and plots the text clustering"""
         preprocessing = TextPreprocessing()
         for article in self.articles:
             if 'abstract' in article:
