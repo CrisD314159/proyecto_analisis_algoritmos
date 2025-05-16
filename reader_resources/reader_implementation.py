@@ -180,27 +180,26 @@ class ReaderImplementation:
         and then plots the results 
         """
         results = {
-            "img": {}
         }
         title = AlgorithmsExecution.execute_algorithms(
             self.titles,
             'TITLE')
-        results['img']["title_bar_plotting"] = title
+        results["title_bar_plotting"] = title
 
         author = AlgorithmsExecution.execute_algorithms(
             self.authors,
             'AUTHOR')
-        results['img']["author_bar_plotting"] = author
+        results["author_bar_plotting"] = author
 
         journal = AlgorithmsExecution.execute_algorithms(
             self.journals,
             'JOURNAL')
-        results['img']["journal_bar_plotting"] = journal
+        results["journal_bar_plotting"] = journal
 
         keywords = AlgorithmsExecution.execute_algorithms(
             self.keywords,
             'KEYWORDS')
-        results['img']["keywords_bar_plotting"] = keywords
+        results["keywords_bar_plotting"] = keywords
 
         self.generate_output_files()
 

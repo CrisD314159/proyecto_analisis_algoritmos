@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException
 from services.abstractComparasion.text_preprocessing import TextPreprocessing
 from services.abstractComparasion.dendrogram_ploting import TextVectorization
 from reader_resources.reader_implementation import ReaderImplementation
+from utils.utils import Utils
 
 router = APIRouter()
 
@@ -29,7 +30,8 @@ def get_abstracts_comparasion():
         results = dendrogram.transform_text(
             preprocessed_abstracts=preprocessed_abstracts)
 
-        return {"dendograms": list(results.values())}
+        return {"ward": Utils.image_to_base64(results["ward_dendogram"]),
+                "average": Utils.image_to_base64(results["average_dendogram"])}
 
     except (IOError, ValueError) as e:
         return HTTPException(status_code=500, detail=str(e))

@@ -8,6 +8,7 @@ from scipy.cluster.hierarchy import dendrogram
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage
+from fastapi.responses import FileResponse
 import matplotlib.pyplot as plt
 import matplotlib
 matplotlib.use("Agg")
@@ -47,7 +48,6 @@ class TextVectorization:
         Method used to plot a dendrogram
         """
         results = {
-            "img": {}
         }
 
         project_dir = os.path.abspath(
@@ -62,7 +62,7 @@ class TextVectorization:
         plt.title("Dendrograma - Ward")
         plt.savefig(file_path)
         plt.close()
-        results["img"]["ward_dendogram"] = file_path
+        results["ward_dendogram"] = file_path
 
         # Average dendrogram
         file_path = os.path.join(
@@ -72,6 +72,6 @@ class TextVectorization:
         plt.title("Dendrograma - Average")
         plt.savefig(file_path)
         plt.close()
-        results["img"]["average_dendogram"] = file_path
+        results["average_dendogram"] = file_path
 
         return results

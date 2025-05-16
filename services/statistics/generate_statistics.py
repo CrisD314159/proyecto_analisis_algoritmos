@@ -24,7 +24,6 @@ def extract_statistics(articles):
     Generates statistics for the scrapped articles and returns paths to the generated files.
     """
     file_paths = {
-        "img": {}
     }
 
     project_dir = os.path.abspath(
@@ -48,7 +47,7 @@ def extract_statistics(articles):
     plt.tight_layout()
     plt.savefig(path_img)
     plt.close()
-    file_paths["img"]["top_15_autores"] = path_img
+    file_paths["top_15_autores"] = path_img
 
     # Año por tipo
     year_by_type = df.groupby(
@@ -62,7 +61,7 @@ def extract_statistics(articles):
     plt.tight_layout()
     plt.savefig(path_img)
     plt.close()
-    file_paths["img"]["publicaciones_ano_tipo"] = path_img
+    file_paths["publicaciones_ano_tipo"] = path_img
 
     # Cantidad total por tipo
     type_counts = df['ENTRYTYPE'].value_counts()
@@ -73,7 +72,7 @@ def extract_statistics(articles):
     plt.tight_layout()
     plt.savefig(path_img)
     plt.close()
-    file_paths["img"]["cantidad_tipo"] = path_img
+    file_paths["cantidad_tipo"] = path_img
 
     # Top journals
     if 'journal' in df.columns:
@@ -84,7 +83,7 @@ def extract_statistics(articles):
         plt.tight_layout()
         plt.savefig(path_img)
         plt.close()
-        file_paths["img"]["top_15_journals"] = path_img
+        file_paths["top_15_journals"] = path_img
 
     # Top publishers
     if 'publisher' in df.columns:
@@ -96,7 +95,7 @@ def extract_statistics(articles):
         plt.tight_layout()
         plt.savefig(path_img)
         plt.close()
-        file_paths["img"]["top_15_publishers"] = path_img
+        file_paths["top_15_publishers"] = path_img
 
     print(f"Estadísticas exportadas en la carpeta '{research_files_dir}'")
 

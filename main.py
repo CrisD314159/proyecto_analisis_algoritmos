@@ -8,6 +8,7 @@
 # from scrappers.iee_scrapper import IeeeScrapper
 # from abstract_text_preprocessing.text_preprocessing import TextPreprocessing
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from api.endpoints import statics
 from api.endpoints import abstracts_comparasion
 from api.endpoints import algorithms
@@ -16,6 +17,14 @@ from api.endpoints import filtering_results
 
 
 app = FastAPI(title="Proyecto Final Análisis de algoritmos")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # O usa ["*"] para permitir todos
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 app.include_router(
     algorithms.router, prefix="/algorithmsExecution",

@@ -16,7 +16,6 @@ from wordcloud import WordCloud
 def execute_wordcounting(articles):
 
     results = {
-        "img": {}
     }
 
     project_dir = os.path.abspath(
@@ -86,14 +85,14 @@ def generate_wordclouds(category_freq, results, total_freq, output_dir="wordclou
         file_path = os.path.join(
             output_dir, f"{category.replace(' ', '_')}.png")
         wc.to_file(file_path)
-        results["img"][category.replace(' ', '_')] = file_path
+        results[category.replace(' ', '_')] = file_path
 
     wc = WordCloud(width=1000, height=500, background_color='white')
     wc.generate_from_frequencies(total_freq)
     file_path = os.path.join(
         output_dir, "total.png")
     wc.to_file(file_path)
-    results["img"]["total_cloud"] = file_path
+    results["total_cloud"] = file_path
 
 
 def generate_co_occurrence_network(articles, results, all_keywords, output_path="word_counting/co_word_network.png"):
@@ -119,4 +118,4 @@ def generate_co_occurrence_network(articles, results, all_keywords, output_path=
     plt.title("Co-word Network")
     plt.savefig(output_path)
     plt.close()
-    results["img"]["co_word_network"] = output_path
+    results["co_word_network"] = output_path

@@ -6,6 +6,7 @@ import os
 import glob
 import shutil
 import json
+import base64
 
 
 class Utils:
@@ -100,3 +101,13 @@ class Utils:
         except (OSError, IOError, json.JSONDecodeError) as e:
             print(f"Error listing Chrome profiles: {e}")
             return []
+
+    @staticmethod
+    def image_to_base64(image_path: str) -> str:
+        """
+        Turns a image into base64
+        """
+        with open(image_path, "rb") as image_file:
+            encoded_string = base64.b64encode(
+                image_file.read()).decode('utf-8')
+            return f"data:image/png;base64,{encoded_string}"

@@ -3,6 +3,7 @@ This module contains all the results related to sorting algoruthms execution
 """
 from fastapi import APIRouter, HTTPException
 from reader_resources.reader_implementation import ReaderImplementation
+from utils.utils import Utils
 
 router = APIRouter()
 
@@ -19,7 +20,10 @@ def get_algorithms():
 
         # Retornar las rutas de los archivos, por ejemplo:
         return {
-            "algorithms_results": list(rutas.values())
+            "title": Utils.image_to_base64(rutas["title_bar_plotting"]),
+            "author": Utils.image_to_base64(rutas["author_bar_plotting"]),
+            "journal": Utils.image_to_base64(rutas["journal_bar_plotting"]),
+            "keywords": Utils.image_to_base64(rutas["keywords_bar_plotting"])
         }
 
     except (IOError, ValueError) as e:

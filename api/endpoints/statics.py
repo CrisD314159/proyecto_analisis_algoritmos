@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException
 from reader_resources.reader_implementation import ReaderImplementation
 # Ensure this is a function in statistics.py
 from services.statistics.generate_statistics import extract_statistics
+from utils.utils import Utils
 
 
 router = APIRouter()
@@ -23,7 +24,10 @@ def get_statistics():
 
         # Retornar las rutas de los archivos, por ejemplo:
         return {
-            "imagenes": list(rutas.values())
+            "authors": Utils.image_to_base64(rutas["top_15_autores"]),
+            "anio": Utils.image_to_base64(rutas["publicaciones_ano_tipo"]),
+            "cantidad_tipo": Utils.image_to_base64(rutas["cantidad_tipo"]),
+            "journals": Utils.image_to_base64(rutas["top_15_journals"])
         }
 
     except (IOError, ValueError) as e:
