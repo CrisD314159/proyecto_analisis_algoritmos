@@ -12,6 +12,7 @@ from api.endpoints import statics
 from api.endpoints import abstracts_comparasion
 from api.endpoints import algorithms
 from api.endpoints import word_counting
+from api.endpoints import filtering_results
 
 
 app = FastAPI(title="Proyecto Final Análisis de algoritmos")
@@ -31,6 +32,10 @@ app.include_router(
 app.include_router(
     abstracts_comparasion.router, prefix="/abstractComparasion",
     tags=["Abstracts Comparasion (Requirement 5)"])
+
+app.include_router(
+    filtering_results.router, prefix="/filteringResults",
+    tags=["Filtering results"])
 
 
 # utils = Utils()

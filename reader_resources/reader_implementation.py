@@ -133,8 +133,8 @@ class ReaderImplementation:
                 self.repeated_articles.append(article)
             else:
                 self.articles.append(article)
-        except Exception as e:
-            print(e)
+        except (KeyError, ValueError, IOError):
+            print("An article was not processed, continuing...")
 
     def verify_article_exists(self, title):
         """
@@ -226,9 +226,22 @@ class ReaderImplementation:
         """
         Prints the obtained results
         """
+        results = {}
         print(len(self.titles), " Titles Filtered")
+
         print(len(self.articles), " Articles Filtered")
+        results["articles"] = len(self.articles)
+
         print(len(self.journals), " Journals Filtered")
+        results["journals"] = len(self.journals)
+
         print(len(self.keywords), " Keywords Filtered")
+        results["keywords"] = len(self.keywords)
+
         print(len(self.authors), " Authors Filtered")
+        results["authors"] = len(self.authors)
+
         print(len(self.repeated_articles), " Repeated Articles")
+        results["reapeated"] = len(self.repeated_articles)
+
+        return results

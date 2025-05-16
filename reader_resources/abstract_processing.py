@@ -3,10 +3,8 @@
  the bibtex articles
 """
 import re
-import time
 from tabulate import tabulate
 from services.algorithms.algorithms_execution import AlgorithmsExecution
-from sorting_algorithms.bubble_sort import StringBubbleSort
 
 
 class AbstractProcessing:
