@@ -5,7 +5,7 @@
 import re
 import time
 from tabulate import tabulate
-from reader_resources.algorithms_execution import AlgorithmsExecution
+from services.algorithms.algorithms_execution import AlgorithmsExecution
 from sorting_algorithms.bubble_sort import StringBubbleSort
 
 

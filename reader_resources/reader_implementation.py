@@ -7,13 +7,9 @@ import glob
 import re
 import uuid
 import bibtexparser as bib
-from reader_resources.algorithms_execution import AlgorithmsExecution
+from services.algorithms.algorithms_execution import AlgorithmsExecution
 from reader_resources.create_output_files import OutputFiles
 from reader_resources.abstract_processing import AbstractProcessing
-from reader_resources.generate_statistics import generate_statistics
-from abstract_text_preprocessing.text_preprocessing import TextPreprocessing
-from abstract_text_preprocessing.dendrogram_ploting import TextVectorization
-from word_counting.word_counting import execute_wordcounting
 
 
 class ReaderImplementation:
@@ -74,13 +70,14 @@ class ReaderImplementation:
                 # Separates and filters every entry from the article
                 self.separate_entry_keys(entry)
 
+        return self.articles
+
         # PLOT AND OUTPUT FILE GENERATION
         # self.print_results()    # Prints the filter results
         # self.generate_output_files()  # Generates the output files
         # self.plot_results()     # Generates a bar graph for the execution results
         # self.process_abstracts()
         # generate_statistics(self.articles)
-        execute_wordcounting(self.articles)
         # self.preprocess_abstracts()
 
     def separate_entry_keys(self, entry):
@@ -182,18 +179,32 @@ class ReaderImplementation:
         Executes all the algorithms for the filtered results
         and then plots the results 
         """
-        AlgorithmsExecution.execute_algorithms(
+        results = {
+            "img": {}
+        }
+        title = AlgorithmsExecution.execute_algorithms(
             self.titles,
             'TITLE')
-        AlgorithmsExecution.execute_algorithms(
+        results['img']["title_bar_plotting"] = title
+
+        author = AlgorithmsExecution.execute_algorithms(
             self.authors,
             'AUTHOR')
-        AlgorithmsExecution.execute_algorithms(
+        results['img']["author_bar_plotting"] = author
+
+        journal = AlgorithmsExecution.execute_algorithms(
             self.journals,
             'JOURNAL')
-        AlgorithmsExecution.execute_algorithms(
+        results['img']["journal_bar_plotting"] = journal
+
+        keywords = AlgorithmsExecution.execute_algorithms(
             self.keywords,
             'KEYWORDS')
+        results['img']["keywords_bar_plotting"] = keywords
+
+        self.generate_output_files()
+
+        return results
 
     def generate_output_files(self):
         """
@@ -210,19 +221,6 @@ class ReaderImplementation:
         "Process an plots the abstract words"
         abstract = AbstractProcessing()
         abstract.filter_keywords(self.abstracts_words)
-
-    def preprocess_abstracts(self):
-        """Preprocess and plots the text clustering"""
-        preprocessing = TextPreprocessing()
-        for article in self.articles:
-            if 'abstract' in article:
-                preprocessing.preprocess_text(
-                    article['abstract'], article['title'])
-        preprocessed_abstracts = preprocessing.preprocessed_abstracts
-
-        dendrogram = TextVectorization()
-        dendrogram.transform_text(
-            preprocessed_abstracts=preprocessed_abstracts)
 
     def print_results(self):
         """

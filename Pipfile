@@ -17,6 +17,8 @@ scipy = "*"
 matplotlib = "*"
 networkx = "*"
 wordcloud = "*"
+fastapi = "*"
+uvicorn = {extras = ["standard"], version = "*"}
 
 [dev-packages]
 
