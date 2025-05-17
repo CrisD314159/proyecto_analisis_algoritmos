@@ -14,7 +14,9 @@ from wordcloud import WordCloud
 
 
 def execute_wordcounting(articles):
-
+    """
+    This method creates the required directory to store the generated graphs
+    """
     results = {
     }
 
@@ -34,6 +36,7 @@ def execute_wordcounting(articles):
     os.makedirs(network_files_dir, exist_ok=True)
     os.makedirs(wordclouds_files_dir, exist_ok=True)
     path_network = os.path.join(network_files_dir, "co_word_network.png")
+
     # Carga categorías
     with open(category_file, "r", encoding="utf-8") as f:
         category_keywords = json.load(f)
@@ -57,6 +60,9 @@ def execute_wordcounting(articles):
 
 
 def count_keywords_by_category(articles, category_keywords, synonym_map):
+    """
+    This method counts how many times a keyword appears in all the provided abstracts
+    """
     category_freq = {cat: Counter() for cat in category_keywords}
     total_freq = Counter()
     abstract = ''
@@ -77,6 +83,9 @@ def count_keywords_by_category(articles, category_keywords, synonym_map):
 
 
 def generate_wordclouds(category_freq, results, total_freq, output_dir="wordclouds"):
+    """
+    This method generates a word cloud for each category frequency
+    """
     os.makedirs(output_dir, exist_ok=True)
 
     for category, freq in category_freq.items():
@@ -95,8 +104,12 @@ def generate_wordclouds(category_freq, results, total_freq, output_dir="wordclou
     results["total_cloud"] = file_path
 
 
-def generate_co_occurrence_network(articles, results, all_keywords, output_path="word_counting/co_word_network.png"):
-    G = nx.Graph()
+def generate_co_occurrence_network(articles, results, all_keywords,
+                                   output_path="word_counting/co_word_network.png"):
+    """
+    This method generares a co occurrence network graph with the keywords an the articles
+    """
+    g = nx.Graph()
     for article in articles:
         abstract = article.get("abstract", "").lower()
         found_keywords = set()
@@ -106,14 +119,14 @@ def generate_co_occurrence_network(articles, results, all_keywords, output_path=
                 found_keywords.add(kw)
 
         for a, b in combinations(found_keywords, 2):
-            if G.has_edge(a, b):
-                G[a][b]['weight'] += 1
+            if g.has_edge(a, b):
+                g[a][b]['weight'] += 1
             else:
-                G.add_edge(a, b, weight=1)
+                g.add_edge(a, b, weight=1)
 
     plt.figure(figsize=(12, 12))
-    pos = nx.spring_layout(G, k=0.5)
-    nx.draw(G, pos, with_labels=True, node_size=500, node_color="skyblue",
+    pos = nx.spring_layout(g, k=0.5)
+    nx.draw(g, pos, with_labels=True, node_size=500, node_color="skyblue",
             edge_color="gray", font_size=10)
     plt.title("Co-word Network")
     plt.savefig(output_path)
