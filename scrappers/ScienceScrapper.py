@@ -12,7 +12,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from dotenv import load_dotenv
 
 
-class ScopusScraper:
+class ScienceScraper:
     """
         This class contains all the scopus scrapper methods
     """
@@ -101,7 +101,7 @@ class ScopusScraper:
         self.browser.get("https://library.uniquindio.edu.co/databases")
         wait = WebDriverWait(self.browser, 10)
         science_direct_div = self.browser.find_element(
-            By.CSS_SELECTOR, "#facingenierasciencedirectconsorciocolombiadescubridor")
+            By.CSS_SELECTOR, "#facingenierasciencedirectdescubridor")
         divlink = wait.until(
             lambda browser: science_direct_div.find_element(By.CSS_SELECTOR, "a"))
         self.browser.get(divlink.get_attribute("href"))
